@@ -16,7 +16,7 @@ Given(/^I go to "([^"]*)"$/, async function (site) {
 });
 
 Given('I go to the home page', async function() {
-    await browser.get('http://localhost:8082/#/home');
+    await browser.get(browser.baseUrl + '/#/home');
     //await browser.sleep(2000);
 })
 

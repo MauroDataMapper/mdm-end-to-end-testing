@@ -4,6 +4,11 @@ import { Reporter } from "./support/reporter";
 
 const jsonReports = process.cwd() + "/reports/json";
 
+let headlessArgs = [];
+if(process.env.JENKINS && process.env.JENKINS === "true") {
+  headlessArgs = ["--headless", "--disable-gpu" ];
+}
+
 export const config: Config = {
   seleniumAddress: 'http://127.0.0.1:4444/wd/hub',
   getPageTimeout: 60000,
@@ -12,7 +17,11 @@ export const config: Config = {
   // path relative to the current config file
   frameworkPath: require.resolve('protractor-cucumber-framework'),
   capabilities: {
-    'browserName': 'chrome'
+    'browserName': 'chrome',
+
+    chromeOptions: {
+      args: headlessArgs
+    }
   },
 
   // Spec patterns are relative to this directory.
@@ -22,7 +31,7 @@ export const config: Config = {
 
   SELENIUM_PROMISE_MANAGER: false,
 
-  baseURL: 'http://localhost:8080/',
+  baseUrl: 'http://localhost:8082/',
   cucumberOpts: {
     //compiler: "ts:ts-node/register",
     format: "json:../reports/json/cucumber_report.json",
