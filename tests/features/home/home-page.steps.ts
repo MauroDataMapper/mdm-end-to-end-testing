@@ -17,23 +17,23 @@
 import { Then, When } from '@cucumber/cucumber';
 import { expect } from 'chai';
 import { browser } from 'protractor';
-import { MenuBarPage } from '../../pages/menuBarPage';
+import { HomePage } from './home-page';
 
-const menuBarPage: MenuBarPage = new MenuBarPage();
+const homePage: HomePage = new HomePage();
 
 When('I go to the home page', async function () {
   await browser.get(browser.baseUrl + '/#/home');
 })
 
 Then('I\'m on the home page', async function () {
-  expect(await menuBarPage.getActiveMenuLink().getText()).to.equal('Home');
+  expect(await homePage.getActiveMenuLink().getText()).to.equal('Home');
 })
 
 Then('Default home page text is present', async function () {
-  expect(await menuBarPage.getMainTextHeader().getText()).to.contain('Use the Mauro Data Mapper platform')
-  expect(await menuBarPage.getMainTextFirstParagraph().getText()).to.contain('Automatically import your existing schemas;')
+  expect(await homePage.getMainTextHeader().getText()).to.contain('Use the Mauro Data Mapper platform')
+  expect(await homePage.getMainTextFirstParagraph().getText()).to.contain('Automatically import your existing schemas;')
 })
 
 Then('Login Button is shown', async function () {
-  expect(await menuBarPage.getLoginButton().isPresent())
+  expect(await homePage.getLoginButton().isPresent())
 })

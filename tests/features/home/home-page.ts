@@ -14,31 +14,18 @@
  * limitations under the License.
  */
 
-import {ElementFinder} from "protractor";
-import {ModalForm} from "./modalForm";
+import { $, $$, ElementFinder } from 'protractor';
+import { MdmTemplatePage } from '../../objects/mdm-template-page';
 
+/**
+ * Page object representing the MDM Home Page.
+ */
+export class HomePage extends MdmTemplatePage {
+  getMainTextHeader(): ElementFinder {
+    return $('h3');
+  }
 
-export class LoginForm extends ModalForm {
-
-    constructor() {
-        super('form[name="loginForm"]');
-    }
-
-    getEmailField(): ElementFinder {
-        return this.getField('email');
-    }
-
-    getPasswordField(): ElementFinder {
-        return this.getField('password');
-    }
-
-    getLoginButton(): ElementFinder {
-        return this.getButton('Log in');
-    }
-
-    getForgotPasswordButton(): ElementFinder {
-        return this.getButton('Forgot Password');
-    }
-
-
+  getMainTextFirstParagraph(): ElementFinder {
+    return $$('div.container p').get(0);
+  }
 }

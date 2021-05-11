@@ -17,28 +17,28 @@
 import { Then, When } from '@cucumber/cucumber';
 import { expect } from 'chai';
 import { browser, $ } from 'protractor';
-import { LoginForm } from '../../forms/loginForm';
-import { MenuBarPage } from '../../pages/menuBarPage';
+import { MdmTemplatePage } from '../../objects/mdm-template-page';
+import { LoginForm } from './login-form';
 
-const menuBarPage: MenuBarPage = new MenuBarPage();
+const page: MdmTemplatePage = new MdmTemplatePage();
 const loginForm: LoginForm = new LoginForm();
 
 When(/^I login as "([^"]*)" with password "([^"]*)"$/, async function (username, password) {
-  await menuBarPage.getLoginButton().click()
+  await page.getLoginButton().click()
   await loginForm.getEmailField().sendKeys(username);
   await loginForm.getPasswordField().sendKeys(password);
   await loginForm.getLoginButton().click();
   await browser.wait(function () {
-    return $('nav#mdm--navbar-desktop div.mdm--navbar-user div.profile-img').isPresent();
+    return page.getUserProfileImage().isPresent();
   });
 });
 
 Then(/^I'm logged in as "([^"]*)"$/, async function (username) {
-  expect(await menuBarPage.getUserNameField().getText()).to.equal(username);
+  expect(await page.getUserNameField().getText()).to.equal(username);
 });
 
 Then('Logout', async function () {
-  await menuBarPage.getUserNameField().click();
-  await menuBarPage.userMenuLogout();
-  expect(await menuBarPage.getLoginButton()).not.null;
+  await page.getUserNameField().click();
+  await page.logout();
+  expect(await page.getLoginButton()).not.null;
 });
