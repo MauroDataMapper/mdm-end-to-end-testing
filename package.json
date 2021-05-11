@@ -3,12 +3,12 @@
   "version": "1.0.0",
   "scripts": {
     "build": "tsc",
-    "clean": "rimraf typeScript/",
+    "clean": "rimraf out/",
     "clean-build": "npm run clean && npm run build",
     "init-contributors": "all-contributors init",
     "add-contributors": "all-contributors add",
     "generate-contributors": "all-contributors generate",
-    "test": "protractor typeScript/protractor.conf.js",
+    "test": "protractor out/protractor.conf.js",
     "webdriver-update": "webdriver-manager update",
     "webdriver-start": "webdriver-manager start"
   },

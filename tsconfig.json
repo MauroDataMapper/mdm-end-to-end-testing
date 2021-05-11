@@ -8,7 +8,7 @@
     "removeComments": false,
     "noImplicitAny": false,
     "skipLibCheck": true,
-    "outDir": "typeScript",
+    "outDir": "out",
     "typeRoots": [ "./node_modules/@types", "./node_modules/@cucumber" ],
     "types": ["node","cucumber"]
   },

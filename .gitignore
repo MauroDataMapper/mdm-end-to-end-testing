@@ -246,4 +246,4 @@ eslint_report.json
 /reports
 
 # Compiled typescript / javascript files
-/typeScript
+/out
