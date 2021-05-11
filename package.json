@@ -10,6 +10,7 @@
     "add-contributors": "all-contributors add",
     "generate-contributors": "all-contributors generate",
     "test": "protractor out/protractor.conf.js",
+    "start": "npm run build && npm run test",
     "webdriver-update": "webdriver-manager update",
     "webdriver-start": "webdriver-manager start"
   },
