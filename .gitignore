@@ -138,7 +138,11 @@ Temporary Items
 build
 
 .vs/
-.vscode/
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
 
 ### Linux template
 *~
@@ -246,4 +250,4 @@ eslint_report.json
 /reports
 
 # Compiled typescript / javascript files
-/typeScript
+/out
