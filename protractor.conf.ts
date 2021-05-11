@@ -42,7 +42,7 @@ export const config: Config = {
 
   // Spec patterns are relative to this directory.
   specs: [
-    '../features/**/*.feature'
+    '../tests/**/*.feature'
   ],
 
   SELENIUM_PROMISE_MANAGER: false,
@@ -51,7 +51,7 @@ export const config: Config = {
   cucumberOpts: {
     //compiler: "ts:ts-node/register",
     format: "json:../reports/json/cucumber_report.json",
-    require: ['./features/step_definitions/*.js'],  // require step definition files before executing features
+    require: ['./tests/**/*.steps.js'],  // require step definition files before executing features
     tags: [],                      // <string[]> (expression) only execute the features or scenarios with tags matching the expression
 //    strict: true,                  // <boolean> fail if there are any undefined or pending steps
 //    'dry-run': false,              // <boolean> invoke formatters without executing steps
