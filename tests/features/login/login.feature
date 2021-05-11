@@ -19,23 +19,31 @@ Feature: Login
     Scenario: Login as administrator
         Given I go to the home page
         When I login as "admin@maurodatamapper.com" with password "password"
-        Then I'm logged in as "Admin User"
+        Then I am logged in as "Admin User"
         Then Logout
 
     Scenario: Login as administrator (case insensitive 1)
         Given I go to the home page
         When I login as "ADMIN@maurodatamapper.com" with password "password"
-        Then I'm logged in as "Admin User"
+        Then I am logged in as "Admin User"
         Then Logout
 
     Scenario: Login as administrator (case insensitive 2)
         Given I go to the home page
         When I login as "ADMIN@MAURODATAMAPPER.COM" with password "password"
-        Then I'm logged in as "Admin User"
+        Then I am logged in as "Admin User"
         Then Logout
 
     Scenario: Login as administrator (with spaces)
         Given I go to the home page
         When I login as "  admin@maurodatamapper.com  " with password "password"
-        Then I'm logged in as "Admin User"
+        Then I am logged in as "Admin User"
         Then Logout
+
+    Scenario: Do not enter username and password
+        Given I go to the home page
+        When I open the Log in form
+        And I leave all form fields empty
+        And Click the Log in button
+        Then I am not logged in
+        And There are validation errors in the login form

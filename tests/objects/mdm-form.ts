@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { by, ElementFinder, $ } from 'protractor';
+import { by, ElementFinder, $, ElementArrayFinder } from 'protractor';
 
 /**
  * Page object representing any `<form>` element inside an MDM page.
@@ -44,5 +44,9 @@ export class MdmForm {
 
   getCloseButton(): ElementFinder {
     return this.getForm().$('button close-modal')
+  }
+
+  getValidationErrors(): ElementArrayFinder {
+    return this.getForm().$$('mat-error');
   }
 }

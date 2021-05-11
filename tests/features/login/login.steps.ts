@@ -33,8 +33,29 @@ When(/^I login as "([^"]*)" with password "([^"]*)"$/, async function (username,
   });
 });
 
-Then(/^I'm logged in as "([^"]*)"$/, async function (username) {
+When(/^I open the Log in form$/, async function () {
+  await page.getLoginButton().click();
+});
+
+When(/^I leave all form fields empty$/, async function() {
+  await loginForm.getEmailField().clear();
+  await loginForm.getPasswordField().clear();
+});
+
+When(/^Click the Log in button$/, async function() {
+  await loginForm.getLoginButton().click();
+});
+
+Then(/^I am logged in as "([^"]*)"$/, async function (username) {
   expect(await page.getUserNameField().getText()).to.equal(username);
+});
+
+Then(/^I am not logged in$/, async function() {
+  expect(await loginForm.getForm().isDisplayed()).to.be.true;
+});
+
+Then(/^There are validation errors in the login form$/, async function() {
+  expect(loginForm.getValidationErrors()).to.not.be.empty;
 });
 
 Then('Logout', async function () {
