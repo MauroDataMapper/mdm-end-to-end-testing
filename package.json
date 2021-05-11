@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "scripts": {
     "build": "tsc",
+    "build-watch": "tsc --watch",
     "clean": "rimraf out/",
     "clean-build": "npm run clean && npm run build",
     "init-contributors": "all-contributors init",

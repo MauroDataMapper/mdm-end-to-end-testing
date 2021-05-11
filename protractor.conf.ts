@@ -1,6 +1,6 @@
 //protractor.conf.js
 import { browser, Config } from "protractor";
-import { Reporter } from "./support/reporter";
+import { Reporter } from "./utils/reporter";
 
 const jsonReports = process.cwd() + "/reports/json";
 
