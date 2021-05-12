@@ -43,6 +43,7 @@ export class MdmTemplatePage {
   }
 
   async logout() {
+    await this.getUserNameField().click();
     await browser.wait(function () {
       return $('div.mat-menu-content').isPresent();
     });

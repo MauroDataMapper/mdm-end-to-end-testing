@@ -16,29 +16,18 @@ Feature: Login
     As a user of Mauro
     Login / Logout functions correctly
 
-    Scenario: Login as administrator
+    Scenario Outline: Login as a valid user
         Given I go to the home page
-        When I login as "admin@maurodatamapper.com" with password "password"
-        Then I am logged in as "Admin User"
+        And I open the Log in form
+        When I login as "<username>" with "<password>"
+        Then I am logged in as "<user>"
         Then Logout
 
-    Scenario: Login as administrator (case insensitive 1)
-        Given I go to the home page
-        When I login as "ADMIN@maurodatamapper.com" with password "password"
-        Then I am logged in as "Admin User"
-        Then Logout
-
-    Scenario: Login as administrator (case insensitive 2)
-        Given I go to the home page
-        When I login as "ADMIN@MAURODATAMAPPER.COM" with password "password"
-        Then I am logged in as "Admin User"
-        Then Logout
-
-    Scenario: Login as administrator (with spaces)
-        Given I go to the home page
-        When I login as "  admin@maurodatamapper.com  " with password "password"
-        Then I am logged in as "Admin User"
-        Then Logout
+        Examples:
+            | username | password | user |
+            | admin@maurodatamapper.com | password | Admin User |
+            | ADMIN@maurodatamapper.com | password | Admin User |
+            | ADMIN@MAURODATAMAPPER.COM | password | Admin User |    
 
     Scenario: Login with empty form
         Given I go to the home page
