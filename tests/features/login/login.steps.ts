@@ -14,31 +14,59 @@
  * limitations under the License.
  */
 
-import { Then, When } from '@cucumber/cucumber';
+import { Given, Then, When } from '@cucumber/cucumber';
 import { expect } from 'chai';
-import { browser, $ } from 'protractor';
+import { browser } from 'protractor';
 import { MdmTemplatePage } from '../../objects/mdm-template-page';
 import { LoginForm } from './login-form';
 
 const page: MdmTemplatePage = new MdmTemplatePage();
 const loginForm: LoginForm = new LoginForm();
 
-When(/^I login as "([^"]*)" with password "([^"]*)"$/, async function (username, password) {
-  await page.getLoginButton().click()
-  await loginForm.getEmailField().sendKeys(username);
-  await loginForm.getPasswordField().sendKeys(password);
+When(/^I login as "([^"]*)" with "([^"]*)"$/, async function(username, password) {
+  await loginForm.login(username, password);
+});
+
+Given(/^I open the Log in form$/, async function () {
+  await page.getLoginButton().click();
+});
+
+When(/^I login with no inputs in the form fields$/, async function() {
+  await loginForm.login();
+});
+
+When(/^Click the Log in button$/, async function() {
   await loginForm.getLoginButton().click();
-  await browser.wait(function () {
-    return page.getUserProfileImage().isPresent();
-  });
 });
 
-Then(/^I'm logged in as "([^"]*)"$/, async function (username) {
-  expect(await page.getUserNameField().getText()).to.equal(username);
+Then(/^I login as "([^"]*)"$/, async function(username) {
+  await loginForm.login(username, "password");
 });
 
-Then('Logout', async function () {
-  await page.getUserNameField().click();
+Then(/^I am logged in as "([^"]*)"$/, async function (name) {
+  await browser.wait(() => page.getUserProfileImage().isPresent());
+  expect(await page.getUserNameField().getText()).to.equal(name);
+});
+
+Then(/^I am not logged in$/, async function() {
+  expect(await loginForm.getForm().isDisplayed()).to.be.true;
+});
+
+Then(/^I see the validation message "([^"]*)"$/, async function(error) {
+  const element = loginForm.getMatError(error);
+  expect(element).is.not.null;
+  expect(await browser.wait(() => element.isDisplayed())).to.be.true;
+});
+
+Then(/^there are validation errors in the login form$/, async function() {
+  expect(loginForm.getMatErrors()).to.not.be.empty;
+});
+
+Then(/^an alert says "([^"]*)"$/, async function(error) {
+  expect(await loginForm.getAlert().getText()).to.equal(error);
+});
+
+Then('Logout', async function () {  
   await page.logout();
   expect(await page.getLoginButton()).not.null;
 });

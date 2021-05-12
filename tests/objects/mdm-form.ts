@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { by, ElementFinder, $ } from 'protractor';
+import { by, ElementFinder, $, ElementArrayFinder } from 'protractor';
 
 /**
  * Page object representing any `<form>` element inside an MDM page.
@@ -44,5 +44,18 @@ export class MdmForm {
 
   getCloseButton(): ElementFinder {
     return this.getForm().$('button close-modal')
+  }
+
+  getMatErrors(): ElementArrayFinder {
+    return this.getForm().$$('mat-error');
+  }
+
+  /**
+   * Gets a matching `<mat-error>` form validation message which matches the given message text.
+   * @param value The mat-error message to search for.
+   * @returns A matching element, or undefined if not found.
+   */
+  getMatError(value: string): ElementFinder {
+    return this.getForm().element(by.cssContainingText('mat-error', value));
   }
 }

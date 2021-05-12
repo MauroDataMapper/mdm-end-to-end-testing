@@ -16,26 +16,56 @@ Feature: Login
     As a user of Mauro
     Login / Logout functions correctly
 
-    Scenario: Login as administrator
+    Scenario Outline: Login as a valid user
         Given I go to the home page
-        When I login as "admin@maurodatamapper.com" with password "password"
-        Then I'm logged in as "Admin User"
+        And I open the Log in form
+        When I login as "<username>" with "<password>"
+        Then I am logged in as "<user>"
         Then Logout
 
-    Scenario: Login as administrator (case insensitive 1)
-        Given I go to the home page
-        When I login as "ADMIN@maurodatamapper.com" with password "password"
-        Then I'm logged in as "Admin User"
-        Then Logout
+        Examples:
+            | username | password | user |
+            | admin@maurodatamapper.com | password | Admin User |
+            | ADMIN@maurodatamapper.com | password | Admin User |
+            | ADMIN@MAURODATAMAPPER.COM | password | Admin User |    
 
-    Scenario: Login as administrator (case insensitive 2)
+    Scenario Outline: Login as a user that does not exist
         Given I go to the home page
-        When I login as "ADMIN@MAURODATAMAPPER.COM" with password "password"
-        Then I'm logged in as "Admin User"
-        Then Logout
+        And I open the Log in form
+        When I login as "<username>" with "<password>"
+        Then I am not logged in
+        And an alert says "Invalid username or password!"
 
-    Scenario: Login as administrator (with spaces)
+        Examples:
+            | username | password |
+            | test@test.com | password |
+            | 123@test.com | hello |
+
+    Scenario: Login with empty form
         Given I go to the home page
-        When I login as "  admin@maurodatamapper.com  " with password "password"
-        Then I'm logged in as "Admin User"
-        Then Logout
+        And I open the Log in form
+        When I login with no inputs in the form fields
+        Then I am not logged in
+        And there are validation errors in the login form
+
+    Scenario Outline: Attempt login with invalid username
+        Given I go to the home page
+        And I open the Log in form
+        When I login as "<username>"
+        Then I am not logged in
+        And I see the validation message "Invalid email address"
+
+        Examples:
+            | username |
+            | test |
+
+    Scenario Outline: Login as a user that does exist with the wrong password
+        Given I go to the home page
+        And I open the Log in form
+        When I login as "<username>" with "<password>"
+        Then I am not logged in
+        And an alert says "Invalid username or password!"
+
+        Examples:
+            | username | password |
+            | admin@maurodatamapper.com | 123 |
