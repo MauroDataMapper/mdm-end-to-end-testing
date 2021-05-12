@@ -58,8 +58,12 @@ Then(/^I see the validation message "([^"]*)"$/, async function(error) {
   expect(await browser.wait(() => element.isDisplayed())).to.be.true;
 });
 
-Then(/^There are validation errors in the login form$/, async function() {
+Then(/^there are validation errors in the login form$/, async function() {
   expect(loginForm.getMatErrors()).to.not.be.empty;
+});
+
+Then(/^an alert says "([^"]*)"$/, async function(error) {
+  expect(await loginForm.getAlert().getText()).to.equal(error);
 });
 
 Then('Logout', async function () {  

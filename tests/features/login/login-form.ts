@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { ElementFinder } from 'protractor';
+import { ElementFinder, $, by } from 'protractor';
 import { MdmForm } from '../../objects/mdm-form';
 
 /**
@@ -40,6 +40,10 @@ export class LoginForm extends MdmForm {
 
   getForgotPasswordButton(): ElementFinder {
     return this.getButton('Forgot Password');
+  }
+
+  getAlert(): ElementFinder {
+    return this.getForm().$('div.alert');
   }
 
   /**

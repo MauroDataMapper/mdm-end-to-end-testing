@@ -29,12 +29,24 @@ Feature: Login
             | ADMIN@maurodatamapper.com | password | Admin User |
             | ADMIN@MAURODATAMAPPER.COM | password | Admin User |    
 
+    Scenario Outline: Login as a user that does not exist
+        Given I go to the home page
+        And I open the Log in form
+        When I login as "<username>" with "<password>"
+        Then I am not logged in
+        And an alert says "Invalid username or password!"
+
+        Examples:
+            | username | password |
+            | test@test.com | password |
+            | 123@test.com | hello |
+
     Scenario: Login with empty form
         Given I go to the home page
         And I open the Log in form
         When I login with no inputs in the form fields
         Then I am not logged in
-        And There are validation errors in the login form
+        And there are validation errors in the login form
 
     Scenario Outline: Attempt login with invalid username
         Given I go to the home page
@@ -46,3 +58,14 @@ Feature: Login
         Examples:
             | username |
             | test |
+
+    Scenario Outline: Login as a user that does exist with the wrong password
+        Given I go to the home page
+        And I open the Log in form
+        When I login as "<username>" with "<password>"
+        Then I am not logged in
+        And an alert says "Invalid username or password!"
+
+        Examples:
+            | username | password |
+            | admin@maurodatamapper.com | 123 |
