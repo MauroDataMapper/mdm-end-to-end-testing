@@ -14,21 +14,19 @@
  * limitations under the License.
  */
 
-import { $, $$, ElementFinder } from 'protractor';
-import { Navigatable } from '../../objects/mdm-interfaces';
-import { MdmTemplatePage } from '../../objects/mdm-template-page';
+/**
+ * Represents that a page object can be navigated to.
+ */
+export interface Navigatable {
+  /**
+   * The relative URL for this page. Should include the initial forward slash but not the domain name or hash.
+   */
+  relativeUrl: string
+}
 
 /**
- * Page object representing the MDM Home Page.
+ * Type guard to test if an object is of type `Navigatable`
  */
-export class HomePage extends MdmTemplatePage implements Navigatable {
-  relativeUrl: string = '/home';
-
-  getMainTextHeader(): ElementFinder {
-    return $('h3');
-  }
-
-  getMainTextFirstParagraph(): ElementFinder {
-    return $$('div.container p').get(0);
-  }
+export function isNavigatable(value: any) : value is Navigatable {
+  return (value as Navigatable) !== undefined;
 }

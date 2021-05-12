@@ -14,21 +14,14 @@
  * limitations under the License.
  */
 
-import { $, $$, ElementFinder } from 'protractor';
-import { Navigatable } from '../../objects/mdm-interfaces';
-import { MdmTemplatePage } from '../../objects/mdm-template-page';
+import { browser } from 'protractor';
+import { isNavigatable, Navigatable } from '../objects/mdm-interfaces';
 
 /**
- * Page object representing the MDM Home Page.
+ * Navigate to a page/URL in the browser.
+ * @param location Either a `Navigatable` object or a string representing the relative URL.
  */
-export class HomePage extends MdmTemplatePage implements Navigatable {
-  relativeUrl: string = '/home';
-
-  getMainTextHeader(): ElementFinder {
-    return $('h3');
-  }
-
-  getMainTextFirstParagraph(): ElementFinder {
-    return $$('div.container p').get(0);
-  }
+export async function navigateTo(location: Navigatable | string) {
+  const relativeUrl = isNavigatable(location) ? location.relativeUrl : location;
+  await browser.get(browser.baseUrl + '/#' + relativeUrl);
 }

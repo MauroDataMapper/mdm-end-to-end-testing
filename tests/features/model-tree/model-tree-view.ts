@@ -14,21 +14,10 @@
  * limitations under the License.
  */
 
-import { $, $$, ElementFinder } from 'protractor';
-import { Navigatable } from '../../objects/mdm-interfaces';
-import { MdmTemplatePage } from '../../objects/mdm-template-page';
+import { ElementFinder, $ } from 'protractor';
 
-/**
- * Page object representing the MDM Home Page.
- */
-export class HomePage extends MdmTemplatePage implements Navigatable {
-  relativeUrl: string = '/home';
-
-  getMainTextHeader(): ElementFinder {
-    return $('h3');
-  }
-
-  getMainTextFirstParagraph(): ElementFinder {
-    return $$('div.container p').get(0);
+export class ModelTreeView {
+  getMatTree(): ElementFinder {
+    return $('mdm-folders-tree').$('mat-tree');
   }
 }

@@ -16,13 +16,13 @@
 
 import { Then, When } from '@cucumber/cucumber';
 import { expect } from 'chai';
-import { browser } from 'protractor';
+import { navigateTo } from '../../helpers/navigation';
 import { HomePage } from './home-page';
 
 const homePage: HomePage = new HomePage();
 
 When('I go to the home page', async function () {
-  await browser.get(browser.baseUrl + '/#/home');
+  await navigateTo(homePage);
 })
 
 Then('I\'m on the home page', async function () {

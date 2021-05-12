@@ -14,21 +14,17 @@
  * limitations under the License.
  */
 
-import { $, $$, ElementFinder } from 'protractor';
-import { Navigatable } from '../../objects/mdm-interfaces';
-import { MdmTemplatePage } from '../../objects/mdm-template-page';
+import { ElementFinder, $ } from 'protractor';
+import { Navigatable } from './mdm-interfaces';
+import { MdmTemplatePage } from './mdm-template-page';
 
 /**
- * Page object representing the MDM Home Page.
+ * Page object representing the main catalogue page listing the model tree explorer.
  */
-export class HomePage extends MdmTemplatePage implements Navigatable {
-  relativeUrl: string = '/home';
+export class CataloguePage extends MdmTemplatePage implements Navigatable {
+  relativeUrl: string = '/catalogue/dataModel/all';
 
-  getMainTextHeader(): ElementFinder {
-    return $('h3');
-  }
-
-  getMainTextFirstParagraph(): ElementFinder {
-    return $$('div.container p').get(0);
+  getDefaultDetailView(): ElementFinder {
+    return $('mdm-data-model-default');
   }
 }
