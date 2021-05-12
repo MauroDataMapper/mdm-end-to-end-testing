@@ -17,8 +17,14 @@ Feature: Model Tree
     As a user of Mauro
     The user will be able to navigate around the model tree
 
-    Scenario: View the model tree
+    Background: Must be logged in at at the correct page
         Given I am logged in
-        When I browse the catalogue
+        And I browse the catalogue
+
+    Scenario: View the model tree
         Then I see the model tree
         And the detail view is empty
+
+    Scenario: Select node from the model tree
+        When I click on a model in the model tree
+        Then the detail view shows the selected model

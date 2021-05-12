@@ -14,10 +14,12 @@
  * limitations under the License.
  */
 
-import { ElementFinder, $ } from 'protractor';
+import { MatTreeObject } from '../../objects/mat-tree-object';
 
 export class ModelTreeView {
-  getMatTree(): ElementFinder {
-    return $('mdm-folders-tree').$('mat-tree');
-  }
+  tree: MatTreeObject = new MatTreeObject('mdm-folders-tree');
+
+  isPresent() {
+    return this.tree.getMatTree().isPresent();
+  }  
 }

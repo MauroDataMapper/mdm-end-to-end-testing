@@ -29,14 +29,27 @@ Given(/^I am logged in$/, async function () {
   await loginUser('administrator');
 });
 
-When(/^I browse the catalogue$/, async function() {
+When(/^I browse the catalogue$/, async function () {
   await navigateTo(cataloguePage);
 });
 
-Then(/^I see the model tree$/, async function() {
-  expect(await browser.wait(() => modelTree.getMatTree().isPresent())).to.be.true;
+When(/^I click on a model in the model tree$/, async function () {
+  await modelTree.tree.ensureExpanded(['Development Folder']);
+
+  const modelNode = await modelTree.tree.getMatTreeNode('Complex Test DataModel');
+  await browser.wait(() => modelNode.elem.isPresent());
+
+  await modelNode.click();
 });
 
-Then(/^the detail view is empty$/, async function() {
+Then(/^I see the model tree$/, async function () {
+  expect(await browser.wait(() => modelTree.isPresent())).to.be.true;
+});
+
+Then(/^the detail view is empty$/, async function () {
   expect(await browser.wait(() => cataloguePage.getDefaultDetailView().isPresent())).to.be.true;
+});
+
+Then(/^the detail view shows the selected model$/, async function () {
+  expect(await browser.wait(() => cataloguePage.isDetailViewDisplayingModel('Complex Test DataModel').isPresent())).to.be.true;
 });

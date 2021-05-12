@@ -47,6 +47,12 @@ export async function loginUser(user: keyof MauroUsers) {
   const credentials = users[user];
 
   await navigateTo(homePage);
+  
+  // If already logged in, ignore
+  if (await homePage.getUserProfileImage().isPresent()) {
+    return;
+  }
+
   await homePage.getLoginButton().click();
   await loginForm.login(credentials.userName, credentials.password);  
 }

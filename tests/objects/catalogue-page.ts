@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { ElementFinder, $ } from 'protractor';
+import { ElementFinder, $, by } from 'protractor';
 import { Navigatable } from './mdm-interfaces';
 import { MdmTemplatePage } from './mdm-template-page';
 
@@ -26,5 +26,18 @@ export class CataloguePage extends MdmTemplatePage implements Navigatable {
 
   getDefaultDetailView(): ElementFinder {
     return $('mdm-data-model-default');
+  }
+
+  getModelDetailView(): ElementFinder {
+    // TODO: modify to look for different domain types
+    return $('mdm-data-model');
+  }
+
+  isDetailViewDisplayingModel(label: string): ElementFinder {
+    // TODO: modify to look for different domain types
+    return $('mdm-data-model')
+      .$('mdm-data-model-detail')
+      .$('div.data-model-header')
+      .element(by.cssContainingText('span.dataModelDetailsLabel', label));
   }
 }
