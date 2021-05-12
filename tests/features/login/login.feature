@@ -40,10 +40,20 @@ Feature: Login
         Then I am logged in as "Admin User"
         Then Logout
 
-    Scenario: Do not enter username and password
+    Scenario: Login with empty form
         Given I go to the home page
-        When I open the Log in form
-        And I leave all form fields empty
-        And Click the Log in button
+        And I open the Log in form
+        When I login with no inputs in the form fields
         Then I am not logged in
         And There are validation errors in the login form
+
+    Scenario Outline: Attempt login with invalid username
+        Given I go to the home page
+        And I open the Log in form
+        When I login as "<username>"
+        Then I am not logged in
+        And I see the validation message "Invalid email address"
+
+        Examples:
+            | username |
+            | test |

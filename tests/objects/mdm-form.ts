@@ -46,7 +46,16 @@ export class MdmForm {
     return this.getForm().$('button close-modal')
   }
 
-  getValidationErrors(): ElementArrayFinder {
+  getMatErrors(): ElementArrayFinder {
     return this.getForm().$$('mat-error');
+  }
+
+  /**
+   * Gets a matching `<mat-error>` form validation message which matches the given message text.
+   * @param value The mat-error message to search for.
+   * @returns A matching element, or undefined if not found.
+   */
+  getMatError(value: string): ElementFinder {
+    return this.getForm().element(by.cssContainingText('mat-error', value));
   }
 }

@@ -41,4 +41,27 @@ export class LoginForm extends MdmForm {
   getForgotPasswordButton(): ElementFinder {
     return this.getButton('Forgot Password');
   }
+
+  /**
+   * Initiate log in as a user by providing a email/username and password.
+   * @param email The email/username to use. Leave undefined if clearing the input.
+   * @param password The password to use. Leave undefined if clearing the input.
+   */
+  async login(email?: string, password?: string) {
+    if (email) {
+      await this.getEmailField().sendKeys(email);
+    }
+    else {
+      await this.getEmailField().clear();
+    }
+
+    if (password) {
+      await this.getPasswordField().sendKeys(password);
+    }    
+    else {
+      await this.getPasswordField().clear();
+    }
+
+    await this.getLoginButton().click();
+  }
 }
