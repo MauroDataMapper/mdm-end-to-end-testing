@@ -23,7 +23,7 @@ export class MatTreeNodeObject {
   constructor(public elem: ElementFinder) { }
 
   async isExpanded(): Promise<boolean> {
-    return await this.elem.$('button.mat-icon-button > mat-icon.fa-minus').isPresent();
+    return await this.elem.$('button.mat-icon-button').$('mat-icon.fa-minus').isPresent();
   }
 
   async expand() {
@@ -39,7 +39,7 @@ export class MatTreeNodeObject {
   }
 
   async click() {
-    await this.elem.click();
+    await this.elem.$('div.mat-tree-node-content').click();
   }
 }
 
@@ -62,7 +62,11 @@ export class MatTreeObject {
     const elem = this.getMatTree()
       .$$('mat-tree-node')
       .filter(async elem => {
-        const label = elem.$('div.mat-tree-node-content').element(by.cssContainingText('span', name));
+        // Find the tree node that contains the label to search for
+        const label = elem
+          .$('div.mat-tree-node-content')
+          .element(by.cssContainingText('span', name));
+
         return await label.isPresent();
       })
       .first();

@@ -18,6 +18,37 @@ import { ElementFinder, $, by } from 'protractor';
 import { Navigatable } from './mdm-interfaces';
 import { MdmTemplatePage } from './mdm-template-page';
 
+export interface ModelDetailViewSelectors {
+  parent: string;
+  detail: string;
+}
+
+export interface ModelDetailViews {
+  dataModel: ModelDetailViewSelectors;
+  terminology: ModelDetailViewSelectors;
+  codeSet: ModelDetailViewSelectors;
+  referenceDataModel: ModelDetailViewSelectors;
+}
+
+const detailViews: ModelDetailViews = {
+  dataModel: {
+    parent: 'mdm-data-model',
+    detail: 'mdm-data-model-detail',
+  },
+  terminology: {
+    parent: 'mdm-terminology',
+    detail: 'mdm-terminology-details',
+  },
+  codeSet: {
+    parent: 'mdm-code-set',
+    detail: 'mdm-code-set-details',
+  },
+  referenceDataModel: {
+    parent: 'mdm-reference-data',
+    detail: 'mdm-reference-data-details'
+  }
+}
+
 /**
  * Page object representing the main catalogue page listing the model tree explorer.
  */
@@ -28,16 +59,10 @@ export class CataloguePage extends MdmTemplatePage implements Navigatable {
     return $('mdm-data-model-default');
   }
 
-  getModelDetailView(): ElementFinder {
-    // TODO: modify to look for different domain types
-    return $('mdm-data-model');
-  }
-
-  isDetailViewDisplayingModel(label: string): ElementFinder {
-    // TODO: modify to look for different domain types
-    return $('mdm-data-model')
-      .$('mdm-data-model-detail')
-      .$('div.data-model-header')
+  isDetailViewDisplayingModel(label: string, type: keyof ModelDetailViews): ElementFinder {
+    const view = detailViews[type];
+    return $(view.parent)
+      .$(view.detail)
       .element(by.cssContainingText('span.dataModelDetailsLabel', label));
   }
 }

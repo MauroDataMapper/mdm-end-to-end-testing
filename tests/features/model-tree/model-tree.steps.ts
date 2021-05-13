@@ -33,23 +33,21 @@ When(/^I browse the catalogue$/, async function () {
   await navigateTo(cataloguePage);
 });
 
-When(/^I click on a model in the model tree$/, async function () {
+When(/^I click on "([^"]*)" in the model tree$/, async function(label) {
   await modelTree.tree.ensureExpanded(['Development Folder']);
-
-  const modelNode = await modelTree.tree.getMatTreeNode('Complex Test DataModel');
-  await browser.wait(() => modelNode.elem.isPresent());
-
+  const modelNode = await modelTree.tree.getMatTreeNode(label);
+  await browser.wait(async () => await modelNode.elem.isPresent());
   await modelNode.click();
 });
 
 Then(/^I see the model tree$/, async function () {
-  expect(await browser.wait(() => modelTree.isPresent())).to.be.true;
+  expect(await browser.wait(async () => await modelTree.isPresent())).to.be.true;
 });
 
 Then(/^the detail view is empty$/, async function () {
-  expect(await browser.wait(() => cataloguePage.getDefaultDetailView().isPresent())).to.be.true;
+  expect(await browser.wait(async () => await cataloguePage.getDefaultDetailView().isPresent())).to.be.true;
 });
 
-Then(/^the detail view shows the selected model$/, async function () {
-  expect(await browser.wait(() => cataloguePage.isDetailViewDisplayingModel('Complex Test DataModel').isPresent())).to.be.true;
+Then(/^the detail view displays "([^"]*)" of type "([^"]*)"$/, async function(label, type) {
+  expect(await browser.wait(async () => await cataloguePage.isDetailViewDisplayingModel(label, type).isPresent())).to.be.true;
 });

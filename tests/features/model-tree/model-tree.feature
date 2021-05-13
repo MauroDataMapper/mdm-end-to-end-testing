@@ -25,6 +25,13 @@ Feature: Model Tree
         Then I see the model tree
         And the detail view is empty
 
-    Scenario: Select node from the model tree
-        When I click on a model in the model tree
-        Then the detail view shows the selected model
+    Scenario Outline: Select a node from the model tree
+        When I click on "<label>" in the model tree
+        Then the detail view displays "<label>" of type "<type>"
+
+        Examples:
+            | label                         | type                  |
+            | Complex Test DataModel        | dataModel             |
+            | Complex Test Terminology      | terminology           |
+            | Simple Reference Data Model   | referenceDataModel    |
+            | Simple Test CodeSet           | codeSet               |
