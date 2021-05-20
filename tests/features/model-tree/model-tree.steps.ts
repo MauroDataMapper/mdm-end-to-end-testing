@@ -16,7 +16,7 @@
 
 import { Given, Then, When } from '@cucumber/cucumber';
 import { expect } from 'chai';
-import { browser } from 'protractor';
+import { ElementFinder } from 'protractor';
 import { loginUser } from '../../helpers/login';
 import { navigateTo } from '../../helpers/navigation';
 import { CataloguePage } from '../../objects/catalogue-page';
@@ -35,19 +35,20 @@ When(/^I browse the catalogue$/, async function () {
 
 When(/^I click on "([^"]*)" in the model tree$/, async function(label) {
   await modelTree.tree.ensureExpanded(['Development Folder']);
-  const modelNode = await modelTree.tree.getMatTreeNode(label);
-  await browser.wait(async () => await modelNode.elem.isPresent());
+  let modelNode = await modelTree.tree.getMatTreeNode(label);
   await modelNode.click();
 });
 
 Then(/^I see the model tree$/, async function () {
-  expect(await browser.wait(async () => await modelTree.isPresent())).to.be.true;
+  expect(await modelTree.isPresent()).to.be.true;
 });
 
 Then(/^the detail view is empty$/, async function () {
-  expect(await browser.wait(async () => await cataloguePage.getDefaultDetailView().isPresent())).to.be.true;
+  const view: ElementFinder = await cataloguePage.getDefaultDetailView();
+  expect(await view.isPresent()).to.be.true;
 });
 
 Then(/^the detail view displays "([^"]*)" of type "([^"]*)"$/, async function(label, type) {
-  expect(await browser.wait(async () => await cataloguePage.isDetailViewDisplayingModel(label, type).isPresent())).to.be.true;
+  const view: ElementFinder = cataloguePage.isDetailViewDisplayingModel(label, type);
+  expect(await view.isPresent()).to.be.true;
 });

@@ -14,12 +14,14 @@
  * limitations under the License.
  */
 
+import { browser } from 'protractor';
 import { MatTreeObject } from '../../objects/mat-tree-object';
 
 export class ModelTreeView {
   tree: MatTreeObject = new MatTreeObject('mdm-folders-tree');
 
-  isPresent() {
-    return this.tree.getMatTree().isPresent();
+  async isPresent(): Promise<boolean> {
+    const tree = await this.tree.getMatTree();
+    return browser.wait(async () => tree.isPresent());
   }  
 }

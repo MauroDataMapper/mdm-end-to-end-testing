@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { ElementFinder, $, by } from 'protractor';
+import { ElementFinder, $, by, browser, until } from 'protractor';
 
 /**
  * Page object helper class to assist with interactions with a `MatTreeNode` Angular component.
@@ -49,7 +49,12 @@ export class MatTreeNodeObject {
 export class MatTreeObject {
   constructor(public cssSelector: string) { }
 
-  getMatTree(): ElementFinder {
+  async getMatTree(): Promise<ElementFinder> {
+    await browser.wait(
+      until.elementLocated($(this.cssSelector).$('mat-tree').locator()), 
+      null, 
+      `Cannot find mat-tree '${this.cssSelector}`);
+
     return $(this.cssSelector).$('mat-tree');
   }
 
@@ -59,7 +64,9 @@ export class MatTreeObject {
    * @returns A `MatTreeNodeObject` containing the found page element.
    */
   async getMatTreeNode(name: string): Promise<MatTreeNodeObject> {
-    const elem = this.getMatTree()
+    const tree: ElementFinder = await this.getMatTree();
+    
+    const elem = tree
       .$$('mat-tree-node')
       .filter(async elem => {
         // Find the tree node that contains the label to search for
@@ -71,7 +78,13 @@ export class MatTreeObject {
       })
       .first();
 
-    return new MatTreeNodeObject(elem);
+    const node = new MatTreeNodeObject(elem);
+    await browser.wait(
+      async () => await node.elem.isPresent(),
+      null,
+      `Tree node '${name}' in mat-tree '${this.cssSelector}' is not present after waiting`);
+
+    return node;
   }
 
   /**

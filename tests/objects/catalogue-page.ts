@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { ElementFinder, $, by } from 'protractor';
+import { ElementFinder, $, by, browser, until } from 'protractor';
 import { Navigatable } from './mdm-interfaces';
 import { MdmTemplatePage } from './mdm-template-page';
 
@@ -55,12 +55,17 @@ const detailViews: ModelDetailViews = {
 export class CataloguePage extends MdmTemplatePage implements Navigatable {
   relativeUrl: string = '/catalogue/dataModel/all';
 
-  getDefaultDetailView(): ElementFinder {
+  async getDefaultDetailView(): Promise<ElementFinder> {
+    await browser.wait(
+      until.elementLocated($('mdm-data-model-default').locator()),
+      null,
+      `Cannot find default detail view`);
+
     return $('mdm-data-model-default');
   }
 
   isDetailViewDisplayingModel(label: string, type: keyof ModelDetailViews): ElementFinder {
-    const view = detailViews[type];
+    const view = detailViews[type];    
     return $(view.parent)
       .$(view.detail)
       .element(by.cssContainingText('span.dataModelDetailsLabel', label));
