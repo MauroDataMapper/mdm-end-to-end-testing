@@ -26,7 +26,7 @@ if(process.env.JENKINS && process.env.JENKINS === "true") {
 }
 
 export const config: Config = {
-  seleniumAddress: 'http://127.0.0.1:4444/wd/hub',
+  //seleniumAddress: 'http://127.0.0.1:4444/wd/hub',
   getPageTimeout: 60000,
   allScriptsTimeout: 500000,
   framework: 'custom',
