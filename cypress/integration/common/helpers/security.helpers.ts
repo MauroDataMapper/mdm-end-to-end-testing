@@ -14,12 +14,23 @@
  * limitations under the License.
  */
 
-export class MdmTemplatePage {
-  getActiveMenuLink() {
-    return cy.get('a.nav-item.nav-link.active');
-  }
+import { apiEndpoint } from './environment.helpers';
 
-  getLogInButton() {
-    return cy.get('.mdm--navbar-user button').should('have.text', 'Log in');
-  }
+export interface AuthenticationResponse {
+  authenticatedSession: boolean;
+}
+
+export const isAuthenticated = () => cy.request<AuthenticationResponse>(apiEndpoint('/session/isAuthenticated'));
+
+export const logout = () => cy.request(apiEndpoint('/authentication/logout'));
+
+export const ensureUserIsLoggedOut = () => {
+  isAuthenticated()
+    .then(response => {
+      if (!response.body.authenticatedSession) {
+        return;
+      }
+
+      logout().its('status').should('equal', 204);
+    });
 }

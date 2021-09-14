@@ -14,8 +14,6 @@
  * limitations under the License.
  */
 
-import { by, ElementFinder, $, ElementArrayFinder } from 'protractor';
-
 /**
  * Page object representing any `<form>` element inside an MDM page.
  */
@@ -26,36 +24,29 @@ export class MdmForm {
    * @param formCss The form CSS selector to use. This is used to locate the `<form>` element and 
    * then find further child elements inside, such as inputs or buttons.
    */
-  constructor(public formCss: string) {
-    this.formCss = formCss
+  constructor(public formSelector: string) { }
+
+  getForm() {
+    return cy.get(this.formSelector);
   }
 
-  getForm(): ElementFinder {
-    return $(this.formCss);
-  }
-
-  getField(fieldName: string): ElementFinder {
-    return this.getForm().$('input[name="' + fieldName + '"]')
+  getField(fieldName: string) {
+    return this.getForm().get('input[name="' + fieldName + '"]');
   }  
 
-  getButton(buttonText: string): ElementFinder {
-    return this.getForm().element(by.cssContainingText('button', buttonText));
+  getButton(buttonText: string) {
+    return this.getForm().contains('button', buttonText);
   }
 
-  getCloseButton(): ElementFinder {
-    return this.getForm().$('button close-modal')
+  getCloseButton() {
+    return this.getForm().get('button close-modal');
   }
 
-  getMatErrors(): ElementArrayFinder {
-    return this.getForm().$$('mat-error');
+  getFormFieldValidationErrors() {
+    return this.getForm().get('mat-error');
   }
 
-  /**
-   * Gets a matching `<mat-error>` form validation message which matches the given message text.
-   * @param value The mat-error message to search for.
-   * @returns A matching element, or undefined if not found.
-   */
-  getMatError(value: string): ElementFinder {
-    return this.getForm().element(by.cssContainingText('mat-error', value));
+  getMatchingFormFieldValidationError(value: string) {
+    return this.getForm().contains('mat-error', value);
   }
 }

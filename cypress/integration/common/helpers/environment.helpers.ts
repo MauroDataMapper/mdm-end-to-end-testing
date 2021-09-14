@@ -14,18 +14,16 @@
  * limitations under the License.
  */
 
-import { MdmTemplatePage } from '../../common/objects/mdm-template-page';
-
-export class HomePage extends MdmTemplatePage {
-  visit() {
-    cy.visit('/#/home');
+/**
+ * Gets a full API endpoint to Mauro.
+ * @param url An optional relative URL to append.
+ * @returns The full API endpoint to use.
+ */
+export const apiEndpoint = (url?: string) => {
+  const baseUrl = Cypress.env('apiEndpoint');
+  if (!url) {
+    return baseUrl;
   }
 
-  getHeroHeaderText() {
-    return cy.get('.bdi--hero-header h3');
-  }
-
-  getHeroHeaderFirstParagraph() {
-    return cy.get('.bdi--hero-header p').first();
-  }
+  return `${baseUrl}${url}`;
 }

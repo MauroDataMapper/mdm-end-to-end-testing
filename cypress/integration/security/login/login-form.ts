@@ -14,36 +14,31 @@
  * limitations under the License.
  */
 
-import { ElementFinder, $, by } from 'protractor';
-import { MdmForm } from '../../objects/mdm-form';
+import { MdmForm } from '../../common/objects/mdm-form';
 
-/**
- * Page object representing the login form displayed when the user clicks the "Log in"
- * button. This form is used to enter credentials to log in.
- */
 export class LoginForm extends MdmForm {
   constructor() {
     super('form[name="loginForm"]');
   }
 
-  getEmailField(): ElementFinder {
+  getEmailField() {
     return this.getField('email');
   }
 
-  getPasswordField(): ElementFinder {
+  getPasswordField() {
     return this.getField('password');
   }
 
-  getLoginButton(): ElementFinder {
+  getLoginButton() {
     return this.getButton('Log in');
   }
 
-  getForgotPasswordButton(): ElementFinder {
+  getForgotPasswordButton() {
     return this.getButton('Forgot Password');
   }
 
-  getAlert(): ElementFinder {
-    return this.getForm().$('div.alert');
+  getAlert() {
+    return this.getForm().get('div.alert');
   }
 
   /**
@@ -51,21 +46,21 @@ export class LoginForm extends MdmForm {
    * @param email The email/username to use. Leave undefined if clearing the input.
    * @param password The password to use. Leave undefined if clearing the input.
    */
-  async login(email?: string, password?: string) {
+  login(email?: string, password?: string) {
     if (email) {
-      await this.getEmailField().sendKeys(email);
+      this.getEmailField().type(email);
     }
     else {
-      await this.getEmailField().clear();
+      this.getEmailField().clear();
     }
 
     if (password) {
-      await this.getPasswordField().sendKeys(password);
+      this.getPasswordField().type(password);
     }    
     else {
-      await this.getPasswordField().clear();
+      this.getPasswordField().clear();
     }
 
-    await this.getLoginButton().click();
+    this.getLoginButton().click();
   }
 }

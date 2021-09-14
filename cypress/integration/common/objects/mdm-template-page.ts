@@ -14,18 +14,23 @@
  * limitations under the License.
  */
 
-import { MdmTemplatePage } from '../../common/objects/mdm-template-page';
-
-export class HomePage extends MdmTemplatePage {
-  visit() {
-    cy.visit('/#/home');
+/**
+ * Base class for all Mauro pages following the standard template (logo, navbar, login/user profile etc).
+ */
+export class MdmTemplatePage {
+  getActiveMenuLink() {
+    return cy.get('a.nav-item.nav-link.active');
   }
 
-  getHeroHeaderText() {
-    return cy.get('.bdi--hero-header h3');
+  getLogInButton() {
+    return cy.get('.mdm--navbar-user button').should('have.text', 'Log in');
   }
 
-  getHeroHeaderFirstParagraph() {
-    return cy.get('.bdi--hero-header p').first();
+  getUserProfileImage() {
+    return cy.get('nav#mdm--navbar-desktop div.mdm--navbar-user div.profile-img');
   }
+
+  getUserProfileName() {
+    return cy.get('nav#mdm--navbar-desktop div.mdm--navbar-user div.profile-name');
+  } 
 }

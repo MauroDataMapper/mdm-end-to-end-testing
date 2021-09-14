@@ -14,14 +14,10 @@
  * limitations under the License.
  */
 
-import { When, Then } from 'cypress-cucumber-preprocessor/steps';
+import { Then } from 'cypress-cucumber-preprocessor/steps';
 import { HomePage } from './home-page';
 
 const homePage: HomePage = new HomePage();
-
-When('I go to the home page', () => {
-  homePage.visit();
-})
 
 Then('I\'m on the home page', () => {
   homePage.getActiveMenuLink().contains('Home');
