@@ -246,6 +246,11 @@ yarn.lock
 eslint_report.json
 .scannerwork
 
+# Cypress files
+/cypress/screenshots
+/cypress/videos
+/cypress/downloads
+
 # Test reports
 /reports
 

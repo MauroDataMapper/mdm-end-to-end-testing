@@ -1,20 +1,8 @@
 {
-  "compilerOptions": {
-    "module": "commonjs",
-    "target": "es6",
-    "moduleResolution": "node",
-    "sourceMap": false,
-    "declaration": false,
-    "removeComments": false,
-    "noImplicitAny": false,
-    "skipLibCheck": true,
-    "outDir": "out",
-    "typeRoots": [ "./node_modules/@types", "./node_modules/@cucumber" ],
-    "types": ["node","cucumber"]
-  },
-  "exclude": [
-    "node_modules",
-    "typescript",
-    "out"
-  ]
-}
+    "compilerOptions": {
+      "target": "es5",
+      "lib": ["es5", "dom"],
+      "types": ["cypress"]
+    },
+    "include": ["**/*.ts"]
+  }
