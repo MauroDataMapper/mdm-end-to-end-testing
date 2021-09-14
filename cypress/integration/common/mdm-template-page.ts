@@ -14,18 +14,12 @@
  * limitations under the License.
  */
 
-import { $, $$, ElementFinder } from 'protractor';
-import { MdmTemplatePage } from '../../objects/mdm-template-page';
-
-/**
- * Page object representing the MDM Home Page.
- */
-export class HomePage extends MdmTemplatePage {
-  getMainTextHeader(): ElementFinder {
-    return $('h3');
+export class MdmTemplatePage {
+  getActiveMenuLink() {
+    return cy.get('a.nav-item.nav-link.active');
   }
 
-  getMainTextFirstParagraph(): ElementFinder {
-    return $$('div.container p').get(0);
+  getLogInButton() {
+    return cy.get('.mdm--navbar-user button').should('have.text', 'Log in');
   }
 }
