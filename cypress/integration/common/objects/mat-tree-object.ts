@@ -1,12 +1,12 @@
 /**
  * Copyright 2021 University of Oxford
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *     http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -29,6 +29,7 @@ export class MatTreeObject {
 
   /**
    * Get a tree node that matches a given name/label.
+   *
    * @param name The name/label on the tree node to get.
    * @param version Optional version or branch name to filter on.
    * @returns The chained command containing the located tree node DOM element.
@@ -37,13 +38,13 @@ export class MatTreeObject {
     let command = this.getTree()
         .get('mat-tree-node')
         .find('div.mat-tree-node-content')
-        .filter(`:contains("${name}")`)
+        .filter(`:contains("${name}")`);
 
     if (version) {
       command = command.filter(`:contains("${version}")`);
     }
 
-    return command.parent();    
+    return command.parent();
   }
 
   isTreeNodeExpanded(name: string) {
@@ -75,6 +76,7 @@ export class MatTreeObject {
 
   /**
    * Ensure that each node listed has been expanded. This does not require that the nodes be in hierarchical order.
+   *
    * @param names One or more node names/labels.
    */
   ensureExpanded(names: string[]) {

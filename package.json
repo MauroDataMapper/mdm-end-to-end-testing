@@ -2,15 +2,24 @@
   "name": "mdm-end-to-end",
   "version": "0.1.0",
   "scripts": {
-    "cypress-open": "cypress open"
+    "cypress-open": "cypress open",
+    "eslint": "eslint . --ext ts --fix",
+    "eslint-nofix": "eslint . --ext ts",
+    "eslint-report": "eslint . --ext ts --format checkstyle -o eslint_report.xml"
   },
   "cypress-cucumber-preprocessor": {
     "nonGlobalStepDefinitions": true
   },
   "devDependencies": {
     "@types/cypress-cucumber-preprocessor": "^4.0.1",
+    "@typescript-eslint/eslint-plugin": "^4.31.1",
+    "@typescript-eslint/eslint-plugin-tslint": "^4.31.1",
     "cypress": "^8.4.0",
     "cypress-cucumber-preprocessor": "^4.2.0",
+    "eslint": "^7.32.0",
+    "eslint-plugin-import": "^2.24.2",
+    "eslint-plugin-jsdoc": "^36.1.0",
+    "eslint-plugin-prefer-arrow": "^1.2.3",
     "typescript": "^4.4.3"
   }
 }
