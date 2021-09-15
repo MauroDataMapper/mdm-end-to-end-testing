@@ -14,7 +14,7 @@
 
 Feature: Login
     As a user of Mauro
-    I want to log in and log out of Mauro to access further features
+    I want to log in to Mauro to access further features
 
     Background: 
         Given I am logged out

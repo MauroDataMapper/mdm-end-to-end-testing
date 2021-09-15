@@ -14,16 +14,16 @@
  * limitations under the License.
  */
 
-import { Then } from 'cypress-cucumber-preprocessor/steps';
-import { HomePage } from './home-page';
+import { Then, When } from 'cypress-cucumber-preprocessor/steps';
+import { isUserLoggedOut } from '../../common/helpers/security.helpers';
+import { MdmTemplatePage } from '../../common/objects/mdm-template-page';
 
-const homePage: HomePage = new HomePage();
+const page = new MdmTemplatePage();
 
-Then('I\'m on the home page', () => {
-  homePage.getActiveMenuLink().contains('Home');
+When(/^I click the logout button$/, () => {
+  page.logoutViaUserProfileMenu();
 })
 
-Then('Default home page text is present', () => {
-  homePage.getHeroHeaderText().contains('Use the Mauro Data Mapper platform');
-  homePage.getHeroHeaderFirstParagraph().contains('Automatically import your existing schemas;');
+Then(/^I am no longer logged in$/, () => {
+  isUserLoggedOut();
 })

@@ -32,5 +32,22 @@ export class MdmTemplatePage {
 
   getUserProfileName() {
     return cy.get('nav#mdm--navbar-desktop div.mdm--navbar-user div.profile-name');
-  } 
+  }
+
+  getUserProfileMenu() {
+    return cy.get('div.mat-menu-content');
+  }
+
+  getLogoutButtonFromUserProfileMenu() {
+    // There appears to be two logout buttons, possibly to cater for responsive screen sizes.
+    // Only one is required though
+    return this.getUserProfileMenu()
+      .get('button#navbar-logout')
+      .last();
+  }
+
+  logoutViaUserProfileMenu() {
+    this.getUserProfileName().click();
+    this.getLogoutButtonFromUserProfileMenu().click();
+  }
 }

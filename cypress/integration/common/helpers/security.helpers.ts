@@ -14,15 +14,20 @@
  * limitations under the License.
  */
 
-import { apiEndpoint } from './environment.helpers';
+import { isApplicationAdministration, isAuthenticated, login, logout } from '../api/security.api';
+import { getUserCredentials, UserIdentifier } from './environment.helpers';
 
-export interface AuthenticationResponse {
-  authenticatedSession: boolean;
+export interface UserDetails {
+  id: string;
+  token?: string;
+  firstName: string;
+  lastName: string;
+  userName: string;
+  email: string;
+  role?: string;
+  isAdmin?: boolean;
+  needsToResetPassword?: boolean;
 }
-
-export const isAuthenticated = () => cy.request<AuthenticationResponse>(apiEndpoint('/session/isAuthenticated'));
-
-export const logout = () => cy.request(apiEndpoint('/authentication/logout'));
 
 export const ensureUserIsLoggedOut = () => {
   isAuthenticated()
@@ -33,4 +38,64 @@ export const ensureUserIsLoggedOut = () => {
 
       logout().its('status').should('equal', 204);
     });
+}
+
+export const loginAsUser = (name: UserIdentifier) => {
+  const credentials = getUserCredentials(name);
+
+  return login(credentials)
+    .then(loginResponse => {
+      expect(loginResponse.isOkStatusCode, 'Login response is status 200').to.be.true;
+
+      return isApplicationAdministration()
+        .then(adminResponse => {
+          expect(adminResponse.isOkStatusCode, 'Administration response is status 200').to.be.true;
+
+          const login = loginResponse.body;
+          const admin = adminResponse.body;
+
+          const user: UserDetails = {
+            id: login.id,
+            token: login.token,
+            firstName: login.firstName,
+            lastName: login.lastName,
+            email: login.emailAddress,
+            userName: login.emailAddress,
+            role: login.userRole?.toLowerCase() ?? '',
+            isAdmin: admin.applicationAdministrationSession ?? false,
+            needsToResetPassword: login.needsToResetPassword ?? false
+          };
+
+          addUserToLocalStorage(user);
+          return user;
+        })
+    })
+}
+
+export const isUserLoggedOut = () => {
+  isAuthenticated()
+    .then(response => expect(response.body.authenticatedSession, 'Authenticated session').to.be.false)
+}
+
+const addUserToLocalStorage = (user: UserDetails) => {
+  // Keep username for 100 days
+  const expireDate = new Date();
+  expireDate.setDate(expireDate.getDate() + 1);
+  localStorage.setItem('userId', user.id);
+  localStorage.setItem('token', user.token);
+  localStorage.setItem('firstName', user.firstName);
+  localStorage.setItem('lastName', user.lastName);
+  localStorage.setItem(
+    'username',
+    JSON.stringify({ username: user.userName, expiry: expireDate })
+  );
+  localStorage.setItem('userId', user.id);
+  localStorage.setItem('isAdmin', String(user.isAdmin));
+
+  localStorage.setItem(
+    'email',
+    JSON.stringify({ email: user.email, expiry: expireDate })
+  );
+  localStorage.setItem('role', user.role);
+  localStorage.setItem('needsToResetPassword', String(user.needsToResetPassword));
 }

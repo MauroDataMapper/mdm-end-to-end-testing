@@ -14,6 +14,23 @@
  * limitations under the License.
  */
 
+export type UserIdentifier = 'administrator';
+
+/**
+ * Represents the user credentials for a test user.
+ */
+export interface UserCredentials {
+  email: string;
+  password: string;
+}
+
+/**
+ * Represents a collection of test users
+ */
+export interface Users {
+  [key: string]: UserCredentials;
+}
+
 /**
  * Gets a full API endpoint to Mauro.
  * @param url An optional relative URL to append.
@@ -21,9 +38,15 @@
  */
 export const apiEndpoint = (url?: string) => {
   const baseUrl = Cypress.env('apiEndpoint');
-  if (!url) {
-    return baseUrl;
-  }
+  return !url ? baseUrl : `${baseUrl}${url}`;  
+}
 
-  return `${baseUrl}${url}`;
+/**
+ * Get the credentials for a test user to log in as.
+ * @param name The identifiable name of the test user credentials to use.
+ * @returns A {@link UserCredentials} object with email and password.
+ */
+export const getUserCredentials = (name: UserIdentifier) => {
+  const users = Cypress.env('users') as Users;
+  return users[name];
 }

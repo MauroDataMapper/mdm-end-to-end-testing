@@ -14,16 +14,15 @@
  * limitations under the License.
  */
 
-import { Then } from 'cypress-cucumber-preprocessor/steps';
-import { HomePage } from './home-page';
+import { Given, Then } from 'cypress-cucumber-preprocessor/steps';
+import { HomePage } from '../../pages/home-page/home-page';
+import { loginAsUser } from '../helpers/security.helpers';
 
-const homePage: HomePage = new HomePage();
-
-Then('I\'m on the home page', () => {
-  homePage.getActiveMenuLink().contains('Home');
+Given(/^I am logged in as the administrator user$/, () => {
+  loginAsUser('administrator')
+    .then(() => new HomePage().visit())
 })
 
-Then('Default home page text is present', () => {
-  homePage.getHeroHeaderText().contains('Use the Mauro Data Mapper platform');
-  homePage.getHeroHeaderFirstParagraph().contains('Automatically import your existing schemas;');
+Then('The login button is shown', () => {
+  new HomePage().getLogInButton().should('exist');
 })
