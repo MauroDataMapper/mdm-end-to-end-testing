@@ -16,22 +16,20 @@
 
 import { Given, Then, When } from 'cypress-cucumber-preprocessor/steps';
 import { CataloguePage } from '../catalogue-page';
-import { ModelTreeView } from './model-tree-view';
 
 const page = new CataloguePage();
-const treeView = new ModelTreeView();
 
 Given(/^I am on the main catalogue browsing page$/, () => {
   page.visit();
 })
 
-When(/^I click on "([^"]*)" in the model tree$/, (label) => {
-  treeView.tree.ensureExpanded(['Development Folder']);
-  treeView.tree.getMatTreeNode(label).click();
+When(/^I click on "([^"]*)" with version "([^"]*)" in the model tree$/, (label, version) => {
+  page.treeView.tree.ensureExpanded(['Development Folder']);
+  page.treeView.tree.getTreeNode(label, version).click();
 })
 
 Then(/^I see the model tree$/, () => {
-  treeView.ensureIsVisible();
+  page.treeView.ensureIsVisible();
 })
 
 Then(/^The catalogue item detail view is empty$/, () => {

@@ -14,40 +14,10 @@
  * limitations under the License.
  */
 
-/**
- * Page object helper class to assist with interactions with a `MatTreeNode` Angular component.
- */
- export class MatTreeNodeState {
-  constructor(public elem: JQuery<HTMLElement>) { }
-
-  getExpandButton() {
-    return this.elem.find('button.mat-icon-button');
-  }
-
-  isExpanded() {
-    return this.getExpandButton()
-      .find('mat-icon')
-      .first()
-      .hasClass('fa-minus');
-  }
-
-  expand() {
-    if (!this.isExpanded()) {
-      this.getExpandButton().trigger('click');
-    }      
-  }
-
-  collapse() {
-    if (this.isExpanded()) {
-      this.getExpandButton().trigger('click');
-    }
-  }  
-}
-
 export class MatTreeObject {
   constructor(public selector: string) { }
 
-  getMatTree() {
+  getTree() {
     return cy.get(this.selector).get('mat-tree');
   }
 
@@ -56,11 +26,44 @@ export class MatTreeObject {
    * @param name The name/label on the tree node to get.
    * @returns A `MatTreeNodeObject` containing the found page element.
    */
-   getMatTreeNode(name: string) {    
-    return this.getMatTree()
-      .get('mat-tree-node')
-      .contains('div.mat-tree-node-content', name)
-      .parent();
+  getTreeNode(name: string, version?: string) {
+    let command = this.getTree()
+        .get('mat-tree-node')
+        .find('div.mat-tree-node-content')
+        .filter(`:contains("${name}")`)
+
+    if (version) {
+      command = command.filter(`:contains("${version}")`);
+    }
+
+    return command.parent();    
+  }
+
+  isTreeNodeExpanded(name: string) {
+    return this.getTreeNodeExpander(name)
+      .find('mat-icon')
+      .first()
+      .then(icon => icon.hasClass('fa-minus'));
+  }
+
+  expandTreeNode(name: string) {
+    this
+      .isTreeNodeExpanded(name)
+      .then(expanded => {
+        if (!expanded) {
+          this.getTreeNodeExpander(name).click();
+        }
+      });
+  }
+
+  collapseTreeNode(name: string) {
+    this
+      .isTreeNodeExpanded(name)
+      .then(expanded => {
+        if (expanded) {
+          this.getTreeNodeExpander(name).click();
+        }
+      });
   }
 
   /**
@@ -68,9 +71,10 @@ export class MatTreeObject {
    * @param names One or more node names/labels.
    */
   ensureExpanded(names: string[]) {
-    names.forEach(name => {
-      this.getMatTreeNode(name)
-        .then(node => new MatTreeNodeState(node).expand());
-    })
+    names.forEach(name => this.expandTreeNode(name));
+  }
+
+  private getTreeNodeExpander(name: string) {
+    return this.getTreeNode(name).find('button.mat-icon-button');
   }
 }

@@ -15,6 +15,7 @@
  */
 
 import { MdmTemplatePage } from '../common/objects/mdm-template-page';
+import { ModelTreeView } from './model-tree/model-tree-view';
 
 export interface ModelDetailViewSelectors {
   parent: string;
@@ -48,6 +49,8 @@ const detailViews: ModelDetailViews = {
 }
 
 export class CataloguePage extends MdmTemplatePage {
+  treeView = new ModelTreeView();
+
   visit() {
     cy.visit('/#/catalogue/dataModel/all');
   }

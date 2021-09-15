@@ -26,12 +26,14 @@ Feature: Model Tree
         And The catalogue item detail view is empty
 
     Scenario Outline: Select a catalogue item from the model tree
-        When I click on "<label>" in the model tree
+        When I click on "<label>" with version "<version>" in the model tree
         Then The catalogue item detail view displays "<label>" of type "<type>"
 
         Examples:
-            | label                         | type                  |
-            | Complex Test DataModel        | dataModel             |
-            | Complex Test Terminology      | terminology           |
-            | Simple Reference Data Model   | referenceDataModel    |
-            | Simple Test CodeSet           | codeSet               |
+            | label                         | version   | type                  |
+            | Complex Test DataModel        |           | dataModel             |
+            | Model Version Tree DataModel  | main      | dataModel             |
+            | Model Version Tree DataModel  | 5.0.0     | dataModel             |
+            | Simple Test Terminology       |           | terminology           |
+            | Simple Reference Data Model   |           | referenceDataModel    |
+            | Simple Test CodeSet           | 1.0.0     | codeSet               |

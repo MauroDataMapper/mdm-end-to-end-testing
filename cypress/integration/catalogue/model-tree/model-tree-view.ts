@@ -20,6 +20,6 @@ export class ModelTreeView {
   tree = new MatTreeObject('mdm-folders-tree');
 
   ensureIsVisible() {
-    this.tree.getMatTree().should('be.visible');
+    this.tree.getTree().should('be.visible');
   }
 }
