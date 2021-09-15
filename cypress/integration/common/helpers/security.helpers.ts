@@ -40,6 +40,19 @@ export const ensureUserIsLoggedOut = () => {
     });
 }
 
+/**
+ * Login as a user via the Mauro API.
+ * @param name The name of the user to login as.
+ * @returns The {@link UserDetails} of the authenticated user.
+ * 
+ * This function directly authenticates a user using the Mauro API instead of clicking through the UI to do
+ * the same action to speed up tests - most tests will by default need to have an authenticated user in an
+ * initial state. See https://docs.cypress.io/guides/getting-started/testing-your-app#Logging-in
+ * 
+ * This function replicates how mdm-ui would sign in a user, by also storing state in local storage. This is
+ * required so that, after navigating to other pages in the application, the UI knows that there is a user
+ * signed in.
+ */
 export const loginAsUser = (name: UserIdentifier) => {
   const credentials = getUserCredentials(name);
 

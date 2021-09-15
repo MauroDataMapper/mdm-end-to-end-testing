@@ -14,9 +14,15 @@
  * limitations under the License.
  */
 
+/**
+ * Wrapper object around interactions with a `mat-tree` in the UI.
+ */
 export class MatTreeObject {
   constructor(public selector: string) { }
 
+  /**
+   * Gets the actual DOM element representing the `mat-tree`.
+   */
   getTree() {
     return cy.get(this.selector).get('mat-tree');
   }
@@ -24,7 +30,8 @@ export class MatTreeObject {
   /**
    * Get a tree node that matches a given name/label.
    * @param name The name/label on the tree node to get.
-   * @returns A `MatTreeNodeObject` containing the found page element.
+   * @param version Optional version or branch name to filter on.
+   * @returns The chained command containing the located tree node DOM element.
    */
   getTreeNode(name: string, version?: string) {
     let command = this.getTree()

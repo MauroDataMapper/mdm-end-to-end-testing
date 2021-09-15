@@ -1,5 +1,10 @@
 {
-  "testFiles": ["**/*.feature", "**/*.spec.ts"],
+  "testFiles": [
+    "**/*.spec.ts",
+    "pages/**/*.feature",
+    "security/**/*.feature",
+    "catalogue/**/*.feature"
+  ],
   "baseUrl": "http://localhost:4200",
   "env": {
     "apiEndpoint": "http://localhost:8080/api",
