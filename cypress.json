@@ -1,9 +1,7 @@
 {
   "testFiles": [
     "**/*.spec.ts",
-    "pages/**/*.feature",
-    "security/**/*.feature",
-    "catalogue/**/*.feature"
+    "**/*.feature"
   ],
   "baseUrl": "http://localhost:4200",
   "env": {

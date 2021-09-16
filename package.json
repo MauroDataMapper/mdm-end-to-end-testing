@@ -2,9 +2,12 @@
   "name": "mdm-end-to-end",
   "version": "0.1.0",
   "scripts": {
-    "cypress-open": "cypress open",
-    "eslint": "eslint . --ext ts --fix",
-    "eslint-nofix": "eslint . --ext ts",
+    "build": "tsc --noEmit",
+    "build-watch": "tsc --noEmit --watch",
+    "test": "cypress open",
+    "start": "cypress run",
+    "eslint": "npm run build && eslint . --ext ts --fix",
+    "eslint-nofix": "npm run build && eslint . --ext ts",
     "eslint-report": "eslint . --ext ts --format checkstyle -o eslint_report.xml"
   },
   "cypress-cucumber-preprocessor": {
