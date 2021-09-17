@@ -43,13 +43,13 @@ npm install
 To run the test specs in standard headless mode, run this command. Running tests via the CLI is most suitable for CI pipelines and reporting.
 
 ```bash
-npm start
+npm run test
 ```
 
 Alternatively, you can instead view and run tests via the [Cypress test runner](https://docs.cypress.io/guides/core-concepts/test-runner) using this command:
 
 ```bash
-npm run test
+npm start
 ```
 
 Using the test runner is most suitable when writing the tests, as all test specs will automatically reload and run again as changes are made. The visual aspect of the test runner will also help identify issues with your tests.
