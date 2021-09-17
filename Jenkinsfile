@@ -7,7 +7,6 @@ pipeline {
 
     options {
         timestamps()
-        skipStagesAfterUnstable()
         buildDiscarder(logRotator(numToKeepStr: '30'))
     }
     /*
@@ -40,6 +39,8 @@ pipeline {
                 script{
                     def port = uk.ac.ox.ndm.jenkins.Utils.findFreeTcpPort()
                     sh "echo \"MDM_PORT=${port}\" > .env.test"
+                    sh "echo \"CYPRESS_BASE_URL=http://localhost:${port}\" >> .env.test"
+                    sh "echo \"cypress_api_server=http://localhost:${port}/api\" >> .env.test"
                 }
             }
         }
@@ -51,23 +52,22 @@ pipeline {
                 }
             }
             steps {
-                dir('mdm-docker') {
-                    sh 'echo MDM_APPLICATION_COMMIT=develop >> .env.test'
-                    sh 'echo MDM_UI_COMMIT=develop >> .env.test'
-                    sh 'echo MDM_TAG=develop >> .env.test'
-                }
+                sh 'echo "MDM_APPLICATION_COMMIT=develop" >> .env.test'
+                sh 'echo "MDM_UI_COMMIT=develop" >> .env.test'
+                sh 'echo "MDM_TAG=develop" >> .env.test'
             }
         }
 
         stage('Build and start MDM'){
             steps {
+                sh 'cat ./.env.test'
                 dir('mdm-docker') {
                     sh 'git checkout develop && git pull'
-                    sh 'cat ../.env.test'
-                    sh 'docker-compose --env-file=../.env.test build'
+                    sh 'docker-compose --env-file=../.env.test build --build-arg CACHE_BURST=$(date +%s)'
                     sh '. ../.env.test && echo starting mdm-docker on port $MDM_PORT'
-                    sh 'docker-compose --env-file=../.env.test -p ${BUILD_TAG} up -d'
+                    sh 'docker-compose --env-file=../.env.test -p "${JOB_BASE_NAME}_${BUILD_NUMBER}" up -d'
                 }
+                sh 'sleep 60' // todo find better "wait method" the wait-for-it doesnt work
             }
         }
 
@@ -75,7 +75,7 @@ pipeline {
             steps {
                 nvm('') {
                     catchError(buildResult: 'UNSTABLE', stageResult: 'UNSTABLE') {
-                        sh '. ./.env.test && CYPRESS_BASE_URL=http://localhost:$MDM_PORT  CYPRESS_API_ENDPOINT=http://localhost:$MDM_PORT/api npm test'
+                        sh '. ./.env.test && CYPRESS_BASE_URL=http://localhost:$MDM_PORT cypress_api_server=http://localhost:$MDM_PORT/api npm test'
                     }
                 }
             }
@@ -84,7 +84,7 @@ pipeline {
             steps{
                 dir('mdm-docker') {
                     sh 'echo Shutting down mdm-docker'
-                    sh 'docker-compose down -v'
+                    sh 'docker-compose -p "${JOB_BASE_NAME}_${BUILD_NUMBER}" down -v'
                 }
             }
         }
