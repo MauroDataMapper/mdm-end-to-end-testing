@@ -14,14 +14,16 @@
 
 Feature: Login
     As a user of Mauro
-    Login / Logout functions correctly
+    I want to log in to Mauro to access further features
+
+    Background: 
+        Given I am logged out
+        And I go to the home page
+        And I open the Log in form
 
     Scenario Outline: Login as a valid user
-        Given I go to the home page
-        And I open the Log in form
         When I login as "<username>" with "<password>"
         Then I am logged in as "<user>"
-        Then Logout
 
         Examples:
             | username | password | user |
@@ -30,8 +32,6 @@ Feature: Login
             | ADMIN@MAURODATAMAPPER.COM | password | Admin User |    
 
     Scenario Outline: Login as a user that does not exist
-        Given I go to the home page
-        And I open the Log in form
         When I login as "<username>" with "<password>"
         Then I am not logged in
         And an alert says "Invalid username or password!"
@@ -42,15 +42,11 @@ Feature: Login
             | 123@test.com | hello |
 
     Scenario: Login with empty form
-        Given I go to the home page
-        And I open the Log in form
         When I login with no inputs in the form fields
         Then I am not logged in
         And there are validation errors in the login form
 
     Scenario Outline: Attempt login with invalid username
-        Given I go to the home page
-        And I open the Log in form
         When I login as "<username>"
         Then I am not logged in
         And I see the validation message "Invalid email address"
@@ -60,8 +56,6 @@ Feature: Login
             | test |
 
     Scenario Outline: Login as a user that does exist with the wrong password
-        Given I go to the home page
-        And I open the Log in form
         When I login as "<username>" with "<password>"
         Then I am not logged in
         And an alert says "Invalid username or password!"

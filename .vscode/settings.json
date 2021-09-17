@@ -1,7 +1,13 @@
 {
-    // Settings for "Licencer" VS Code extension. Install using "ext install licenser"
-    "licenser.author": "University of Oxford",
-    "licenser.useSingleLineStyle": false,
-    
-    "typescript.preferences.quoteStyle": "single"
+  // Settings for "Licencer" VS Code extension. Install using "ext install licenser"
+  "licenser.author": "University of Oxford",
+  "licenser.useSingleLineStyle": false,
+
+  "typescript.preferences.quoteStyle": "single",
+
+  // Settings for cucumberautocomplete
+  "cucumberautocomplete.steps": [
+    "cypress/integration/**/*.steps.ts",
+  ],
+  "cucumberautocomplete.strictGherkinCompletion": true
 }

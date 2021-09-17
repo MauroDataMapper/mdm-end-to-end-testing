@@ -1,12 +1,12 @@
 /**
  * Copyright 2021 University of Oxford
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *     http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -14,18 +14,15 @@
  * limitations under the License.
  */
 
-import { $, $$, ElementFinder } from 'protractor';
-import { MdmTemplatePage } from '../../objects/mdm-template-page';
+import { Given, Then } from 'cypress-cucumber-preprocessor/steps';
+import { HomePage } from '../../pages/home-page/home-page';
+import { loginAsUser } from '../helpers/security.helpers';
 
-/**
- * Page object representing the MDM Home Page.
- */
-export class HomePage extends MdmTemplatePage {
-  getMainTextHeader(): ElementFinder {
-    return $('h3');
-  }
+Given(/^I am logged in as the administrator user$/, () => {
+  loginAsUser('administrator')
+    .then(() => new HomePage().visit());
+});
 
-  getMainTextFirstParagraph(): ElementFinder {
-    return $$('div.container p').get(0);
-  }
-}
+Then('The login button is shown', () => {
+  new HomePage().getLogInButton().should('exist');
+});

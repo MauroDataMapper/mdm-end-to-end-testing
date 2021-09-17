@@ -1,0 +1,16 @@
+{
+  "testFiles": [
+    "**/*.spec.ts",
+    "**/*.feature"
+  ],
+  "baseUrl": "http://localhost:4200",
+  "env": {
+    "apiEndpoint": "http://localhost:8080/api",
+    "users": {
+      "administrator": {
+        "email": "admin@maurodatamapper.com",
+        "password": "password"
+      }
+    }
+  }
+}
