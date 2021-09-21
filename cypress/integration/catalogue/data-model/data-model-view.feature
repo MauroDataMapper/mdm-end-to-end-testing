@@ -24,6 +24,8 @@ Feature: Viewing Data Models
     Scenario Outline: Viewing the standard Data Model details
         When I click on "<label>" with version "<version>" in the model tree
         Then The catalogue item with the name "<label>" is displayed
+        And I can see all the catalogue item details
+        And I can see all the standard options available
 
         Examples:
             | label                         | version   |
@@ -34,6 +36,7 @@ Feature: Viewing Data Models
         When I click on "<label>" with version "<version>" in the model tree
         Then The catalogue item with the name "<label>" is displayed
         And The draft badge is displayed with no model version
+        And I can see all the draft options available
 
         Examples:
             | label                         | version   |
@@ -45,6 +48,7 @@ Feature: Viewing Data Models
         When I click on "<label>" with version "<version>" in the model tree
         Then The catalogue item with the name "<label>" is displayed
         And The finalised badge is displayed with the matching model version "<version>"
+        And I can see all the finalised options available
 
         Examples:
             | label                         | version   |

@@ -24,6 +24,32 @@ export type ModelPropertyIdentifier =
   | 'model-version'
   | 'branch';
 
+export type CatalogueItemDetailOption =
+  'user-actions-menu'
+  | 'user-group-access'
+  | 'export-menu'
+  | 'search'
+  | 'favourite-toggle';
+
+export type UserActionMenuIdenfitier =
+  'top-level-user-actions'
+  | 'delete-actions';
+
+export type UserActionsMenuOption = 
+  'finalise'
+  | 'edit-label'
+  | 'compare'
+  | 'create-new-version'
+  | 'merge'
+  | 'merge-graph'
+  | 'restore'
+  | 'delete-options-menu'
+  | 'soft-delete'
+  | 'permanent-delete';
+
+export type UserActionsSubMenuOption = 
+  'delete-options-menu';
+
 export class DataModelPage extends MdmTemplatePage {
   getDetailArea() {
     return cy.get('mdm-data-model')
@@ -44,5 +70,44 @@ export class DataModelPage extends MdmTemplatePage {
      return this.getDetailArea()
       .find('div[data-cy="catalogue-item-properties"]')
       .find(`[data-cy="${name}"]`)
+  }
+
+  getBranchSelector() {
+    return this.getModelProperty('branch')
+      .find('select.mdm-branch-selector');
+  }
+
+  getCurrentBranch() {
+    return this.getBranchSelector()
+      .find(':selected')
+      .then(elem => {
+        cy.log(`Branch name: ${elem.text()}`);
+      });
+  }
+
+  getOptionButton(option: CatalogueItemDetailOption) {
+    const elem = option === 'favourite-toggle' ? 'i' : 'button';
+    return this.getDetailArea()
+      .find(`${elem}[data-cy="${option}"]`);
+  }
+
+  openUserActionsMenu() {
+    this.getOptionButton('user-actions-menu').click();
+  }
+
+  expandUserActionsSubMenu(option: UserActionsSubMenuOption) {
+    this.getUserActionsMenuButton(option)
+      .trigger('mouseenter');
+  }
+
+  collapseUserActionsSubMenu(option: UserActionsSubMenuOption) {
+    this.getUserActionsMenuButton(option)
+      .trigger('mouseexit');
+  }
+
+  getUserActionsMenuButton(option: UserActionsMenuOption) {  
+    return cy.get('div.cdk-overlay-container')
+      .find('div.mat-menu-content')
+      .find(`button[data-cy="${option}"]`);
   }
 }

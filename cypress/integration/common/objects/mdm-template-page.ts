@@ -50,4 +50,8 @@ export class MdmTemplatePage {
     this.getUserProfileName().click();
     this.getLogoutButtonFromUserProfileMenu().click();
   }
+
+  closeOverlayMenu() {
+    return cy.get('.cdk-overlay-backdrop').click();
+  }
 }
