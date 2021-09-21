@@ -50,6 +50,15 @@ export type UserActionsMenuOption =
 export type UserActionsSubMenuOption = 
   'delete-options-menu';
 
+export type DataModelTab = 
+  'Description'
+  | 'Schema'
+  | 'Types'
+  | 'Context'
+  | 'Rules'
+  | 'Annotations'
+  | 'History';
+
 export class DataModelPage extends MdmTemplatePage {
   getDetailArea() {
     return cy.get('mdm-data-model')
@@ -109,5 +118,15 @@ export class DataModelPage extends MdmTemplatePage {
     return cy.get('div.cdk-overlay-container')
       .find('div.mat-menu-content')
       .find(`button[data-cy="${option}"]`);
+  }
+
+  getTabGroup() {
+    return cy.get('mdm-data-model')
+      .find('mat-tab-group');
+  }
+
+  getTab(name: DataModelTab) {
+    return this.getTabGroup()
+      .contains('div[role="tab"]', name);
   }
 }

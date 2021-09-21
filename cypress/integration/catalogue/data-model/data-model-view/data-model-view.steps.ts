@@ -48,6 +48,14 @@ Then(/^I can see all the standard options available$/, () => {
   page.collapseUserActionsSubMenu('delete-options-menu');
 
   page.closeOverlayMenu();
+
+  page.getTab('Description').should('exist');
+  page.getTab('Schema').should('exist');
+  page.getTab('Types').should('exist');
+  page.getTab('Context').should('exist');
+  page.getTab('Rules').should('exist');
+  page.getTab('Annotations').should('exist');
+  page.getTab('History').should('exist');
 })
 
 Then(/^The draft badge is displayed with no model version$/, () => {
