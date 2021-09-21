@@ -28,6 +28,7 @@ Feature: Viewing Data Models
         Examples:
             | label                         | version   |
             | Complex Test DataModel        |           |
+            | Model Version Tree DataModel  | 5.0.0     |
 
     Scenario Outline: Viewing a draft Data Model
         When I click on "<label>" with version "<version>" in the model tree

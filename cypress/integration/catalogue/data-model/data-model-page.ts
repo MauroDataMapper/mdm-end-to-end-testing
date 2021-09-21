@@ -42,7 +42,7 @@ export class DataModelPage extends MdmTemplatePage {
 
   getModelProperty(name: ModelPropertyIdentifier) {
      return this.getDetailArea()
-      .find('div[data-cy="model-properties"]')
+      .find('div[data-cy="catalogue-item-properties"]')
       .find(`[data-cy="${name}"]`)
   }
 }
