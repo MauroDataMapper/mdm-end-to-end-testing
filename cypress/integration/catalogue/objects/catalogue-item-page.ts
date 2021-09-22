@@ -22,7 +22,8 @@ export type CatalogueItemPropertyIdentifier =
   | 'authority'
   | 'documentation-version'
   | 'model-version'
-  | 'branch';
+  | 'branch'
+  | 'last-update';
 
 export type CatalogueItemOptionIdentifier =
   'user-actions-menu'

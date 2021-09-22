@@ -23,6 +23,11 @@ Given(/^I am on the main catalogue browsing page$/, () => {
   page.visit();
 });
 
+When(/^I click on "([^"]*)" in the model tree$/, (label) => {
+  page.treeView.tree.ensureExpanded(['Development Folder']);
+  page.treeView.tree.getTreeNode(label).click();
+});
+
 When(/^I click on "([^"]*)" with version "([^"]*)" in the model tree$/, (label, version) => {
   page.treeView.tree.ensureExpanded(['Development Folder']);
   page.treeView.tree.getTreeNode(label, version).click();
