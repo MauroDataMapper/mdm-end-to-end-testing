@@ -16,7 +16,7 @@
 
 import { MdmTemplatePage } from '../../common/objects/mdm-template-page';
 
-export type ModelPropertyIdentifier = 
+export type CatalogueItemPropertyIdentifier =
   'item-type'
   | 'availability'
   | 'authority'
@@ -24,18 +24,25 @@ export type ModelPropertyIdentifier =
   | 'model-version'
   | 'branch';
 
-export type CatalogueItemDetailOption =
+export type CatalogueItemOptionIdentifier =
   'user-actions-menu'
   | 'user-group-access'
   | 'export-menu'
   | 'search'
   | 'favourite-toggle';
 
-export type UserActionMenuIdenfitier =
-  'top-level-user-actions'
-  | 'delete-actions';
+export type CatalogueItemTabIdentifier =
+  'Description'
+  | 'Schema'
+  | 'Types'
+  | 'Terms'
+  | 'Links'
+  | 'Context'
+  | 'Rules'
+  | 'Annotations'
+  | 'History';
 
-export type UserActionsMenuOption = 
+export type UserActionsMenuOption =
   'finalise'
   | 'edit-label'
   | 'compare'
@@ -47,22 +54,27 @@ export type UserActionsMenuOption =
   | 'soft-delete'
   | 'permanent-delete';
 
-export type UserActionsSubMenuOption = 
+export type UserActionsSubMenuOption =
   'delete-options-menu';
 
-export type DataModelTab = 
-  'Description'
-  | 'Schema'
-  | 'Types'
-  | 'Context'
-  | 'Rules'
-  | 'Annotations'
-  | 'History';
+/**
+ * Base class for all page views representing the details of a catalogue item.
+ */
+export class CatalogueItemPage extends MdmTemplatePage {
+  /**
+   * Creates a new `CatalogueItemPage`.
+   * @param containerSelector The DOM selector for the overall view container of the catalogue item.
+   * @param detailSelector The DOM selector for the detail section of the catalogue item.
+   */
+  constructor(
+    protected containerSelector: string,
+    protected detailSelector: string) {
+    super();
+  }
 
-export class DataModelPage extends MdmTemplatePage {
   getDetailArea() {
-    return cy.get('mdm-data-model')
-      .find('mdm-data-model-detail');
+    return cy.get(this.containerSelector)
+      .find(this.detailSelector);
   }
 
   getLabel() {
@@ -70,34 +82,26 @@ export class DataModelPage extends MdmTemplatePage {
       .find('h4[data-cy="catalogue-item-label"]');
   }
 
-  getModelStatus() {
+  getModelProperty(name: CatalogueItemPropertyIdentifier) {
     return this.getDetailArea()
-      .find('mdm-element-status span.badge');
-  }
-
-  getModelProperty(name: ModelPropertyIdentifier) {
-     return this.getDetailArea()
       .find('div[data-cy="catalogue-item-properties"]')
       .find(`[data-cy="${name}"]`)
   }
 
-  getBranchSelector() {
-    return this.getModelProperty('branch')
-      .find('select.mdm-branch-selector');
-  }
-
-  getCurrentBranch() {
-    return this.getBranchSelector()
-      .find(':selected')
-      .then(elem => {
-        cy.log(`Branch name: ${elem.text()}`);
-      });
-  }
-
-  getOptionButton(option: CatalogueItemDetailOption) {
+  getOptionButton(option: CatalogueItemOptionIdentifier) {
     const elem = option === 'favourite-toggle' ? 'i' : 'button';
     return this.getDetailArea()
       .find(`${elem}[data-cy="${option}"]`);
+  }
+
+  getTabGroup() {
+    return cy.get(this.containerSelector)
+      .find('mat-tab-group');
+  }
+
+  getTab(name: CatalogueItemTabIdentifier) {
+    return this.getTabGroup()
+      .contains('div[role="tab"]', name);
   }
 
   openUserActionsMenu() {
@@ -114,19 +118,9 @@ export class DataModelPage extends MdmTemplatePage {
       .trigger('mouseexit');
   }
 
-  getUserActionsMenuButton(option: UserActionsMenuOption) {  
+  getUserActionsMenuButton(option: UserActionsMenuOption) {
     return cy.get('div.cdk-overlay-container')
       .find('div.mat-menu-content')
       .find(`button[data-cy="${option}"]`);
-  }
-
-  getTabGroup() {
-    return cy.get('mdm-data-model')
-      .find('mat-tab-group');
-  }
-
-  getTab(name: DataModelTab) {
-    return this.getTabGroup()
-      .contains('div[role="tab"]', name);
   }
 }

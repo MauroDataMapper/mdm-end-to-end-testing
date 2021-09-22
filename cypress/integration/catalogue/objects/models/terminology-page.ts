@@ -14,16 +14,10 @@
  * limitations under the License.
  */
 
-import { Given, When } from 'cypress-cucumber-preprocessor/steps';
-import { CataloguePage } from '../../catalogue/objects/catalogue-page';
+import { ModelTypePage } from '../model-type-page';
 
-const page = new CataloguePage();
-
-Given(/^I am on the main catalogue browsing page$/, () => {
-  page.visit();
-});
-
-When(/^I click on "([^"]*)" with version "([^"]*)" in the model tree$/, (label, version) => {
-  page.treeView.tree.ensureExpanded(['Development Folder']);
-  page.treeView.tree.getTreeNode(label, version).click();
-});
+export class TerminologyPage extends ModelTypePage {
+  constructor() {
+    super('mdm-terminology', 'mdm-terminology-details');
+  }
+}

@@ -15,7 +15,7 @@
  */
 
 import { Given, Then, When } from 'cypress-cucumber-preprocessor/steps';
-import { CataloguePage } from '../catalogue-page';
+import { CataloguePage } from '../objects/catalogue-page';
 
 const page = new CataloguePage();
 

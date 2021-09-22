@@ -16,9 +16,9 @@
 
 import { Then } from 'cypress-cucumber-preprocessor/steps';
 import { isMainBranch } from '../../../common/helpers/model.helpers';
-import { DataModelPage } from '../../objects/models/data-model-page';
+import { TerminologyPage } from '../../objects/models/terminology-page';
 
-const page = new DataModelPage();
+const page = new TerminologyPage();
 
 Then(/^The catalogue item with the name "([^"]*)" is displayed$/, (label) => {
   page.getLabel().should('contain.text', label);
@@ -39,7 +39,6 @@ Then(/^I can see all the standard options available$/, () => {
   page.getOptionButton('user-actions-menu').should('be.visible');
 
   page.openUserActionsMenu();
-  page.getUserActionsMenuButton('merge-graph').should('be.visible');
   page.getUserActionsMenuButton('delete-options-menu').should('be.visible');
 
   page.expandUserActionsSubMenu('delete-options-menu');
@@ -49,10 +48,7 @@ Then(/^I can see all the standard options available$/, () => {
 
   page.closeOverlayMenu();
 
-  page.getTab('Description').should('exist');
-  page.getTab('Schema').should('exist');
-  page.getTab('Types').should('exist');
-  page.getTab('Context').should('exist');
+  page.getTab('Description').should('exist');  
   page.getTab('Rules').should('exist');
   page.getTab('Annotations').should('exist');
   page.getTab('History').should('exist');
@@ -71,10 +67,7 @@ Then(/^I can see all the draft options available$/, () => {
     .then(elem => {
       if (isMainBranch(elem.text())) {
         page.getUserActionsMenuButton('finalise').should('be.visible');
-      }      
-      else {
-        page.getUserActionsMenuButton('merge').should('be.visible');
-      }
+      }    
     })
     .then(() => page.closeOverlayMenu());
 })
@@ -84,7 +77,7 @@ Then(/^The finalised badge is displayed with the matching model version "([^"]*)
   page.getModelProperty('model-version').should('contain.text', version);
 })
 
-Then(/^I can see all the finalised options available$/, () => {  
+Then(/^I can see all the finalised options available$/, () => {
   page.openUserActionsMenu();
   page.getUserActionsMenuButton('create-new-version').should('be.visible');
   page.closeOverlayMenu();

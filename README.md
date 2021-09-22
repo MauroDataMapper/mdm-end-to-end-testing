@@ -95,6 +95,12 @@ The following are advised for further reading:
 * [cypress-cucumber-preprocessor README](https://github.com/TheBrainFamily/cypress-cucumber-preprocessor)
 * [How to integrate Cypress and Cucumber in your development flow in just a few weeks](https://itortv.medium.com/how-to-integrate-cypress-and-cucumber-in-your-development-flow-in-just-a-few-weeks-96a46ac9165a)
 
+## Tags
+
+You can tag tests using Cucumber's tag expressions, as explained here: https://github.com/TheBrainFamily/cypress-cucumber-example#tagging-tests. The test runners are currently configured to support the following tags (though more may be added later):
+
+* `@exclude` - Add this to a `Scenario` or `Scenario` outline to _not_ have it verified when running tests. Useful for defining the scenarios but filling in later.
+
 ### Logging in
 
 One of the most common predicate steps you will need to carry out before most test scenarios can actually run is to login as a user and start in a known state in Mauro Data Mapper before the actual scenario under test can start. This is so common that Cypress actually refer to this strategy in their documentation - https://docs.cypress.io/guides/getting-started/testing-your-app#Logging-in.
