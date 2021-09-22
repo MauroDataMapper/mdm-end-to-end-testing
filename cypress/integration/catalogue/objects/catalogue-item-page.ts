@@ -1,12 +1,12 @@
 /**
  * Copyright 2021 University of Oxford
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *     http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -66,6 +66,7 @@ export type UserActionsSubMenuOption =
 export class CatalogueItemPage extends MdmTemplatePage {
   /**
    * Creates a new `CatalogueItemPage`.
+   *
    * @param containerSelector The DOM selector for the overall view container of the catalogue item.
    * @param detailSelector The DOM selector for the detail section of the catalogue item.
    */
@@ -88,7 +89,7 @@ export class CatalogueItemPage extends MdmTemplatePage {
   getModelProperty(name: CatalogueItemPropertyIdentifier) {
     return this.getDetailArea()
       .find('div[data-cy="catalogue-item-properties"]')
-      .find(`[data-cy="${name}"]`)
+      .find(`[data-cy="${name}"]`);
   }
 
   getOptionButton(option: CatalogueItemOptionIdentifier) {

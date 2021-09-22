@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { Given, Then, When } from 'cypress-cucumber-preprocessor/steps';
+import { Then } from 'cypress-cucumber-preprocessor/steps';
 import { CataloguePage } from '../objects/catalogue-page';
 
 const page = new CataloguePage();
