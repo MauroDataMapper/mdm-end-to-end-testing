@@ -34,7 +34,9 @@ export type CatalogueItemOptionIdentifier =
 export type CatalogueItemTabIdentifier =
   'Description'
   | 'Schema'
+  | 'Elements'
   | 'Types'
+  | 'Data'
   | 'Terms'
   | 'Links'
   | 'Context'

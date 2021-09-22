@@ -16,9 +16,9 @@
 
 import { Then } from 'cypress-cucumber-preprocessor/steps';
 import { isMainBranch } from '../../../common/helpers/model.helpers';
-import { CodeSetPage } from '../../objects/models/code-set-page';
+import { ReferenceDataModelPage } from '../../objects/models/reference-data-model-page';
 
-const page = new CodeSetPage();
+const page = new ReferenceDataModelPage();
 
 Then(/^The catalogue item with the name "([^"]*)" is displayed$/, (label) => {
   page.getLabel().should('contain.text', label);
@@ -33,6 +33,7 @@ Then(/^I can see all the catalogue item details$/, () => {
 
 Then(/^I can see all the standard options available$/, () => {
   page.getOptionButton('favourite-toggle').should('be.visible');
+  page.getOptionButton('export-menu').should('be.visible');
   page.getOptionButton('user-group-access').should('be.visible');
   page.getOptionButton('user-actions-menu').should('be.visible');
 
@@ -47,8 +48,9 @@ Then(/^I can see all the standard options available$/, () => {
   page.closeOverlayMenu();
 
   page.getTab('Description').should('exist');
-  page.getTab('Terms').should('exist');
-  page.getTab('Links').should('exist');
+  page.getTab('Elements').should('exist');
+  page.getTab('Types').should('exist');
+  page.getTab('Data').should('exist');
   page.getTab('Rules').should('exist');
   page.getTab('Annotations').should('exist');
   page.getTab('History').should('exist');
