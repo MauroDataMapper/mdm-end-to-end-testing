@@ -252,7 +252,7 @@ eslint_report.json
 /cypress/downloads
 
 # Test reports
-/reports
+/cypress/reports
 
 # Compiled typescript / javascript files
 /out
