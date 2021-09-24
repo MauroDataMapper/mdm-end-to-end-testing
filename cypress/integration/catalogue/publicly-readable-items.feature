@@ -20,10 +20,11 @@ Feature: Publicly readable catalogue items
     As an anonymous user
     I want to be able to read any publicly readable catalogue item without signing in
 
-    @scenario-teardown
     Scenario Outline: Mark a catalogue item as publicly readable
         Given I am logged in as the administrator user
+        And I am on the main catalogue browsing page
         And I click on "<label>" with version "<version>" in the model tree
+        And The selected catalogue item is not available to everyone
         When I mark the selected catalogue item as "Publicly readable"
         Then The selected catalogue item is now public for anyone to read
 
@@ -35,7 +36,7 @@ Feature: Publicly readable catalogue items
             | Simple Test CodeSet           | 1.0.0     |
             | Development Folder            |           |
 
-
+    @exclude
     Scenario Outline: Read a public catalogue item
         Given An administrator has marked "<label>" - version: "<version>" - as publicly readable
         And I am an anonymous user

@@ -14,28 +14,34 @@
  * limitations under the License.
  */
 
-import { After, Given, Then, When } from 'cypress-cucumber-preprocessor/steps';
+import { Given, Then, When } from 'cypress-cucumber-preprocessor/steps';
+import { makeCatalogueItemPubliclyReadable } from '../../common/api/access-levels';
+import { CataloguePage } from '../objects/catalogue-page';
+import { UserGroupAccessDialog } from '../objects/dialogs/user-group-access-dialog';
+
+const catalogue = new CataloguePage();
+const userGroupAccess = new UserGroupAccessDialog();
+
+Given(/^The selected catalogue item is not available to everyone$/, () => {
+  catalogue.getCurrentlyLoadedCatalogueItemView()
+    .then(page => page.getMauroData())
+    .then(item => makeCatalogueItemPubliclyReadable(item.domain, item.id, false))
+    .then(() => cy.reload()); // Force reload so page doesn't contain cached data
+})
 
 When(/^I mark the selected catalogue item as "Publicly readable"$/, () => {
-  // TODO:
-  // Model tree selection needs to include cy.as() call
-  // Open "User & Group Access" dialog
-  // Tick "Publicly readable"
-  throw new Error();
+  catalogue.getCurrentlyLoadedCatalogueItemView()
+    .then(page => page.getOptionButton('user-group-access').click())
+    .then(() => userGroupAccess.getUserAccessOption('shareReadWithEveryone').click());
 })
 
 Then(/^The selected catalogue item is now public for anyone to read$/, () => {
-  // TODO
-  // Model tree selection needs to include cy.as() call
-  // Model property now includes "Availability: Publicly Readable"
-  throw new Error();
-})
+  userGroupAccess.getUserAccessOptionRawInput('shareReadWithEveryone').should('be.checked');
+  userGroupAccess.getCloseButton().click();
 
-After({ tags: '@scenario-teardown' }, () => {
-  // TODO
-  // Model tree selection needs to include cy.as() call
-  // Find id of catalogue item
-  // Send REST call to remove "publicly readable" status
+  catalogue.getCurrentlyLoadedCatalogueItemView()
+    .then(page => page.getModelProperty('availability'))
+    .should('contain.text', 'Publicly Readable');
 })
 
 Given(/^An administrator has marked "([^"]*)" - version: "([^"]*)" - as publicly readable$/, (label, version) => {

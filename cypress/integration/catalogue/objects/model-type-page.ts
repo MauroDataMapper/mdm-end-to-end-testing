@@ -20,7 +20,9 @@ import { CatalogueItemPage } from './catalogue-item-page';
  * Base class for all page views representing the details of a model catalogue item, such as a Data Model.
  */
 export class ModelTypePage extends CatalogueItemPage {
-  constructor(containerSelector: string, detailSelector: string) {
+  constructor(
+    containerSelector: string, 
+    detailSelector: string) {
     super(containerSelector, detailSelector);
   }
 

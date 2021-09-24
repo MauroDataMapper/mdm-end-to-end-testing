@@ -28,5 +28,7 @@ Then(/^The catalogue item detail view is empty$/, () => {
 });
 
 Then(/^The catalogue item detail view displays "([^"]*)" of type "([^"]*)"$/, (label, type) => {
-  page.isDetailViewDisplayingModel(label, type).should('be.visible');
+  page.getCatalogueItemView(type)
+    .getLabel()
+    .should('contain.text', label);
 });
