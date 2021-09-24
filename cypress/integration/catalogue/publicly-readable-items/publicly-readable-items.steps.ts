@@ -1,12 +1,12 @@
 /**
  * Copyright 2021 University of Oxford
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *     http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -28,13 +28,13 @@ Given(/^The selected catalogue item is not available to everyone$/, () => {
     .then(page => page.getMauroData())
     .then(item => makeCatalogueItemPubliclyReadable(item.domain, item.id, false))
     .then(() => cy.reload()); // Force reload so page doesn't contain cached data
-})
+});
 
 When(/^I mark the selected catalogue item as "Publicly readable"$/, () => {
   catalogue.getCurrentlyLoadedCatalogueItemView()
     .then(page => page.getOptionButton('user-group-access').click())
     .then(() => userGroupAccess.getUserAccessOption('shareReadWithEveryone').click());
-})
+});
 
 Then(/^The selected catalogue item is now public for anyone to read$/, () => {
   userGroupAccess.getUserAccessOptionRawInput('shareReadWithEveryone').should('be.checked');
@@ -43,9 +43,9 @@ Then(/^The selected catalogue item is now public for anyone to read$/, () => {
   catalogue.getCurrentlyLoadedCatalogueItemView()
     .then(page => page.getModelProperty('availability'))
     .should('contain.text', 'Publicly Readable');
-})
+});
 
-Given(/^An administrator has marked "([^"]*)" - version: "([^"]*)" - as publicly readable$/, (label, version) => {  
+Given(/^An administrator has marked "([^"]*)" - version: "([^"]*)" - as publicly readable$/, (label, version) => {
   ensureUserIsLoggedOut()
     .log('Sign in as administrator')
     .then(() => loginAsUser('administrator'))
@@ -60,13 +60,13 @@ Given(/^An administrator has marked "([^"]*)" - version: "([^"]*)" - as publicly
     .log('Sign out as administrator')
     .then(() => ensureUserIsLoggedOut())
     .then(() => cy.reload());
-})
+});
 
-Then(/^I can read the selected catalogue item$/, () => {    
+Then(/^I can read the selected catalogue item$/, () => {
   catalogue.getCurrentlyLoadedCatalogueItemView()
     .then(page => {
       page.getDetailArea().should('be.visible');
       page.openUserActionsMenu();
       page.getUserActionsMenuButton('edit-label').should('not.exist');
     });
-})
+});

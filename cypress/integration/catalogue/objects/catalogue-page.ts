@@ -57,7 +57,7 @@ export class CataloguePage extends MdmTemplatePage {
   }
 
   getCatalogueItemView(type: keyof CatalogueItemTypePageMap): CatalogueItemTypePageObject {
-    return this.catalogueItems[type];    
+    return this.catalogueItems[type];
   }
 
   getCurrentlyLoadedCatalogueItemView() {
@@ -69,11 +69,11 @@ export class CataloguePage extends MdmTemplatePage {
       .then(view => {
         const viewName: string = view.prop('tagName').toLowerCase();
         const page = Object.values(this.catalogueItems)
-          .map(page => page as CatalogueItemTypePageObject)
-          .find(page => page.matchesContainer(viewName));
-          
+          .map(p => p as CatalogueItemTypePageObject)
+          .find(p => p.matchesContainer(viewName));
+
         expect(page, `page with tag name '<${viewName}>'`).is.not.undefined;
         return cy.wrap(page);
-      })
-  }  
+      });
+  }
 }

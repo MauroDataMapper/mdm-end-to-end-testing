@@ -21,7 +21,7 @@ import { ensureUserIsLoggedOut, loginAsUser } from '../helpers/security.helpers'
 Given(/^I am an anonymous user$/, () => {
   ensureUserIsLoggedOut()
     .then(() => new HomePage().visit());
-})
+});
 
 Given(/^I am logged in as the administrator user$/, () => {
   loginAsUser('administrator')
