@@ -17,7 +17,7 @@ Feature: Model Tree
     As an administrator of Mauro
     I want to navigate around Mauro using the model tree to view catalogue items
 
-    Background: Must be logged in at the correct page
+    Background: I am logged in and on the catalogue page
         Given I am logged in as the administrator user
         And I am on the main catalogue browsing page
 

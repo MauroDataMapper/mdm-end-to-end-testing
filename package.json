@@ -4,8 +4,8 @@
   "scripts": {
     "build": "tsc --noEmit",
     "build-watch": "tsc --noEmit --watch",
-    "start": "cypress open",
-    "test": "cypress run",
+    "start": "cypress open -e TAGS='not @exclude'",
+    "test": "cypress run -e TAGS='not @exclude'",
     "eslint": "npm run build && eslint . --ext ts --fix",
     "eslint-nofix": "npm run build && eslint . --ext ts",
     "eslint-report": "eslint . --ext ts --format checkstyle -o eslint_report.xml"

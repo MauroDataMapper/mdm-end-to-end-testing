@@ -14,19 +14,21 @@
  * limitations under the License.
  */
 
-import { Then } from 'cypress-cucumber-preprocessor/steps';
-import { CataloguePage } from '../objects/catalogue-page';
+import { Given, When } from 'cypress-cucumber-preprocessor/steps';
+import { CataloguePage } from '../../catalogue/objects/catalogue-page';
 
 const page = new CataloguePage();
 
-Then(/^I see the model tree$/, () => {
-  page.treeView.ensureIsVisible();
+Given(/^I am on the main catalogue browsing page$/, () => {
+  page.visit();
 });
 
-Then(/^The catalogue item detail view is empty$/, () => {
-  page.getDefaultCatalogueItemDetailView().should('be.visible');
+When(/^I click on "([^"]*)" in the model tree$/, (label) => {
+  page.treeView.tree.ensureExpanded(['Development Folder']);
+  page.treeView.tree.getTreeNode(label).click();
 });
 
-Then(/^The catalogue item detail view displays "([^"]*)" of type "([^"]*)"$/, (label, type) => {
-  page.isDetailViewDisplayingModel(label, type).should('be.visible');
+When(/^I click on "([^"]*)" with version "([^"]*)" in the model tree$/, (label, version) => {
+  page.treeView.tree.ensureExpanded(['Development Folder']);
+  page.treeView.tree.getTreeNode(label, version).click();
 });

@@ -14,19 +14,10 @@
  * limitations under the License.
  */
 
-import { Then } from 'cypress-cucumber-preprocessor/steps';
-import { CataloguePage } from '../objects/catalogue-page';
+import { ModelTypePage } from '../model-type-page';
 
-const page = new CataloguePage();
-
-Then(/^I see the model tree$/, () => {
-  page.treeView.ensureIsVisible();
-});
-
-Then(/^The catalogue item detail view is empty$/, () => {
-  page.getDefaultCatalogueItemDetailView().should('be.visible');
-});
-
-Then(/^The catalogue item detail view displays "([^"]*)" of type "([^"]*)"$/, (label, type) => {
-  page.isDetailViewDisplayingModel(label, type).should('be.visible');
-});
+export class TerminologyPage extends ModelTypePage {
+  constructor() {
+    super('mdm-terminology', 'mdm-terminology-details');
+  }
+}

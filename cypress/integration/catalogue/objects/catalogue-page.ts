@@ -14,8 +14,8 @@
  * limitations under the License.
  */
 
-import { MdmTemplatePage } from '../common/objects/mdm-template-page';
-import { ModelTreeView } from './model-tree/model-tree-view';
+import { MdmTemplatePage } from '../../common/objects/mdm-template-page';
+import { ModelTreeView } from './model-tree-view';
 
 export interface ModelDetailViewSelectors {
   parent: string;
