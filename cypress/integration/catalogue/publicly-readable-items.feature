@@ -30,10 +30,8 @@ Feature: Publicly readable catalogue items
 
         Examples:
             | label                         | version   |
-            | Complex Test DataModel        |           |
             | Model Version Tree DataModel  | 5.0.0     |
             | Complex Test Terminology      |           |
-            | Simple Test CodeSet           | 1.0.0     |
             | Development Folder            |           |
 
     Scenario Outline: Read a public catalogue item
@@ -45,8 +43,6 @@ Feature: Publicly readable catalogue items
 
         Examples:
             | label                         | version   |
-            | Complex Test DataModel        |           |
             | Model Version Tree DataModel  | 5.0.0     |
             | Complex Test Terminology      |           |
-            | Simple Test CodeSet           | 1.0.0     |
             | Development Folder            |           |
