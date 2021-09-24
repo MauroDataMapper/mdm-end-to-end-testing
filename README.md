@@ -54,6 +54,34 @@ npm start
 
 Using the test runner is most suitable when writing the tests, as all test specs will automatically reload and run again as changes are made. The visual aspect of the test runner will also help identify issues with your tests.
 
+## Reporting
+
+Cypress has been [configured](https://docs.cypress.io/guides/tooling/reporters) to output data files necessary for generating test reports, which is defined in the `reporter-config.json` file. The following reporters have been configured:
+
+* `spec` - The default Mocha reporter which writes to the console/terminal.
+* `mocha-junit-reporter` - To output JUnit XML files.
+* `mochawesome` - To generate a HTML report.
+
+To generate reports, such as during a CI pipeline:
+
+```bash
+# Delete existing report data folder/files
+# Note: For Windows (PowerShell), run this instead:
+#
+# Remove-Item -Force -Recurse cypress/reports
+rm -rf cypress/reports
+
+# Run all tests and generate data files required for reports
+# All test result will be written to the console by default
+npm run test
+
+# Merge report data and generate the final reports, located in:
+#
+# cypress/reports/junit.xml
+# cypress/reports/mochawesome/index.html
+npm run generate-reports
+```
+
 ## Writing tests
 
 A lot of useful information regarding writing and running tests can be found at https://docs.cypress.io/.

@@ -8,7 +8,11 @@
     "test": "cypress run -e TAGS='not @exclude'",
     "eslint": "npm run build && eslint . --ext ts --fix",
     "eslint-nofix": "npm run build && eslint . --ext ts",
-    "eslint-report": "eslint . --ext ts --format checkstyle -o eslint_report.xml"
+    "eslint-report": "eslint . --ext ts --format checkstyle -o eslint_report.xml",
+    "generate-junit-report": "jrm cypress/reports/junit.xml \"cypress/reports/junit/*.xml\"",
+    "merge-mochawesome-json": "mochawesome-merge cypress/reports/mochawesome/json/*.json -o cypress/reports/mochawesome.json",
+    "generate-mochawesome-report": "npm run merge-mochawesome-json && marge cypress/reports/mochawesome.json -o cypress/reports/mochawesome -f index.html",
+    "generate-reports": "npm run generate-junit-report && npm run generate-mochawesome-report"
   },
   "cypress-cucumber-preprocessor": {
     "nonGlobalStepDefinitions": true
@@ -19,10 +23,16 @@
     "@typescript-eslint/eslint-plugin-tslint": "^4.31.1",
     "cypress": "^8.4.0",
     "cypress-cucumber-preprocessor": "^4.2.0",
+    "cypress-multi-reporters": "^1.5.0",
     "eslint": "^7.32.0",
     "eslint-plugin-import": "^2.24.2",
     "eslint-plugin-jsdoc": "^36.1.0",
     "eslint-plugin-prefer-arrow": "^1.2.3",
+    "junit-report-merger": "^3.0.2",
+    "mocha-junit-reporter": "^2.0.0",
+    "mochawesome": "^6.2.2",
+    "mochawesome-merge": "^4.2.0",
+    "mochawesome-report-generator": "^5.2.0",
     "typescript": "^4.4.3"
   }
 }
