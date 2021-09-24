@@ -49,7 +49,7 @@ export class CataloguePage extends MdmTemplatePage {
   };
 
   visit() {
-    cy.visit('/#/catalogue/dataModel/all');
+    return cy.visit('/#/catalogue/dataModel/all');
   }
 
   getDefaultCatalogueItemDetailView() {

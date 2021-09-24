@@ -36,14 +36,12 @@ Feature: Publicly readable catalogue items
             | Simple Test CodeSet           | 1.0.0     |
             | Development Folder            |           |
 
-    @exclude
     Scenario Outline: Read a public catalogue item
         Given An administrator has marked "<label>" - version: "<version>" - as publicly readable
         And I am an anonymous user
         And I am on the main catalogue browsing page
         When I click on "<label>" with version "<version>" in the model tree
         Then I can read the selected catalogue item
-        And I cannot edit the selected catalogue item
 
         Examples:
             | label                         | version   |

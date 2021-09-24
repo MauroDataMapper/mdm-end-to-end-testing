@@ -16,6 +16,7 @@
 
 import { Given, Then, When } from 'cypress-cucumber-preprocessor/steps';
 import { makeCatalogueItemPubliclyReadable } from '../../common/api/access-levels';
+import { ensureUserIsLoggedOut, loginAsUser } from '../../common/helpers/security.helpers';
 import { CataloguePage } from '../objects/catalogue-page';
 import { UserGroupAccessDialog } from '../objects/dialogs/user-group-access-dialog';
 
@@ -44,26 +45,28 @@ Then(/^The selected catalogue item is now public for anyone to read$/, () => {
     .should('contain.text', 'Publicly Readable');
 })
 
-Given(/^An administrator has marked "([^"]*)" - version: "([^"]*)" - as publicly readable$/, (label, version) => {
-  // TODO
-  // Login as admin
-  // Navigate tree to select chosen catalogue item
-  // Find out id of catalogue item - will need to update UI to add catalogue item id as data attribute somewhere
-  // Send REST call to add "publicly readable" status
-  // Sign out
-  throw new Error();
+Given(/^An administrator has marked "([^"]*)" - version: "([^"]*)" - as publicly readable$/, (label, version) => {  
+  ensureUserIsLoggedOut()
+    .log('Sign in as administrator')
+    .then(() => loginAsUser('administrator'))
+    .then(() => catalogue.visit())
+    .log('Find catalogue item to display')
+    .then(() => catalogue.treeView.tree.ensureExpanded(['Development Folder']))
+    .then(() => catalogue.treeView.tree.getTreeNode(label, version).click())
+    .log('Prepare catalogue item to be publicly readable')
+    .then(() => catalogue.getCurrentlyLoadedCatalogueItemView())
+    .then(page => page.getMauroData())
+    .then(item => makeCatalogueItemPubliclyReadable(item.domain, item.id, true))
+    .log('Sign out as administrator')
+    .then(() => ensureUserIsLoggedOut())
+    .then(() => cy.reload());
 })
 
-Then(/^I can read the selected catalogue item$/, () => {
-  // TODO
-  // Model tree selection needs to include cy.as() call
-  // Check the catalogue item is in detail view
-  throw new Error();
-})
-
-Then(/^I cannot edit the selected catalogue item$/, () => {
-  // TODO
-  // Model tree selection needs to include cy.as() call
-  // Check edit controls do not exist
-  throw new Error();
+Then(/^I can read the selected catalogue item$/, () => {    
+  catalogue.getCurrentlyLoadedCatalogueItemView()
+    .then(page => {
+      page.getDetailArea().should('be.visible');
+      page.openUserActionsMenu();
+      page.getUserActionsMenuButton('edit-label').should('not.exist');
+    });
 })
