@@ -17,7 +17,9 @@
 import { CatalogueItemPage } from './catalogue-item-page';
 
 export class ContainerTypePage extends CatalogueItemPage {
-  constructor(containerSelector: string, detailSelector: string) {
+  constructor(
+    containerSelector: string,
+    detailSelector: string) {
     super(containerSelector, detailSelector);
   }
 }

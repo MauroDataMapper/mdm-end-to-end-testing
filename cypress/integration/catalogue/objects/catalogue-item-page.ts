@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 
+import { CatalogueItemDomainType, Uuid } from '../../common/api/common-types';
 import { MdmTemplatePage } from '../../common/objects/mdm-template-page';
 
 export type CatalogueItemPropertyIdentifier =
@@ -60,6 +61,11 @@ export type UserActionsMenuOption =
 export type UserActionsSubMenuOption =
   'delete-options-menu';
 
+export interface MauroCatalogueItem {
+  id: Uuid;
+  domain: CatalogueItemDomainType;
+}
+
 /**
  * Base class for all page views representing the details of a catalogue item.
  */
@@ -76,9 +82,30 @@ export class CatalogueItemPage extends MdmTemplatePage {
     super();
   }
 
+  matchesContainer(tagName: string) {
+    return this.containerSelector === tagName;
+  }
+
   getDetailArea() {
     return cy.get(this.containerSelector)
       .find(this.detailSelector);
+  }
+
+  getMauroData() {
+    return cy.get(this.containerSelector)
+      .find('[data-cy="catalogue-item-container"]')
+      .then(container => {
+        const id = container.data('catalogue-item-id');
+        const domain = container.data('catalogue-item-domain');
+
+        expect(id, 'data-catalogue-item-id must exist on container').is.not.undefined;
+        expect(domain, 'data-catalogue-item-domain must exist on container').is.not.undefined;
+
+        return cy.wrap<MauroCatalogueItem>({
+          id,
+          domain
+        });
+      });
   }
 
   getLabel() {

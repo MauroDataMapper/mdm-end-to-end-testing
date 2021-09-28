@@ -15,54 +15,65 @@
  */
 
 import { MdmTemplatePage } from '../../common/objects/mdm-template-page';
+import { FolderPage } from './containers/folder-page';
 import { ModelTreeView } from './model-tree-view';
+import { CodeSetPage } from './models/code-set-page';
+import { DataModelPage } from './models/data-model-page';
+import { ReferenceDataModelPage } from './models/reference-data-model-page';
+import { TerminologyPage } from './models/terminology-page';
 
-export interface ModelDetailViewSelectors {
-  parent: string;
-  detail: string;
+export type CatalogueItemTypePageObject =
+  DataModelPage
+  | TerminologyPage
+  | CodeSetPage
+  | ReferenceDataModelPage
+  | FolderPage;
+
+export interface CatalogueItemTypePageMap {
+  dataModel: DataModelPage;
+  terminology: TerminologyPage;
+  codeSet: CodeSetPage;
+  referenceDataModel: ReferenceDataModelPage;
+  folder: FolderPage;
 }
-
-export interface ModelDetailViews {
-  dataModel: ModelDetailViewSelectors;
-  terminology: ModelDetailViewSelectors;
-  codeSet: ModelDetailViewSelectors;
-  referenceDataModel: ModelDetailViewSelectors;
-}
-
-const detailViews: ModelDetailViews = {
-  dataModel: {
-    parent: 'mdm-data-model',
-    detail: 'mdm-data-model-detail',
-  },
-  terminology: {
-    parent: 'mdm-terminology',
-    detail: 'mdm-terminology-details',
-  },
-  codeSet: {
-    parent: 'mdm-code-set',
-    detail: 'mdm-code-set-details',
-  },
-  referenceDataModel: {
-    parent: 'mdm-reference-data',
-    detail: 'mdm-reference-data-details'
-  }
-};
 
 export class CataloguePage extends MdmTemplatePage {
   treeView = new ModelTreeView();
 
+  catalogueItems: CatalogueItemTypePageMap = {
+    dataModel: new DataModelPage(),
+    terminology: new TerminologyPage(),
+    codeSet: new CodeSetPage(),
+    referenceDataModel: new ReferenceDataModelPage(),
+    folder: new FolderPage()
+  };
+
   visit() {
-    cy.visit('/#/catalogue/dataModel/all');
+    return cy.visit('/#/catalogue/dataModel/all');
   }
 
   getDefaultCatalogueItemDetailView() {
     return cy.get('mdm-data-model-default');
   }
 
-  isDetailViewDisplayingModel(label: string, type: keyof ModelDetailViews) {
-    const view = detailViews[type];
-    return cy.get(view.parent)
-      .find(view.detail)
-      .contains('span.dataModelDetailsLabel', label);
+  getCatalogueItemView(type: keyof CatalogueItemTypePageMap): CatalogueItemTypePageObject {
+    return this.catalogueItems[type];
+  }
+
+  getCurrentlyLoadedCatalogueItemView() {
+    return cy.get('mdm-two-side-panel')
+      .find('div.resizableRight')
+      .find('div#mdm-ui')
+      .children()
+      .first()
+      .then(view => {
+        const viewName: string = view.prop('tagName').toLowerCase();
+        const page = Object.values(this.catalogueItems)
+          .map(p => p as CatalogueItemTypePageObject)
+          .find(p => p.matchesContainer(viewName));
+
+        expect(page, `page with tag name '<${viewName}>'`).is.not.undefined;
+        return cy.wrap(page);
+      });
   }
 }

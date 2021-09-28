@@ -14,21 +14,10 @@
  * limitations under the License.
  */
 
-import { Then } from 'cypress-cucumber-preprocessor/steps';
-import { CataloguePage } from '../objects/catalogue-page';
+import { apiEndpoint } from '../helpers/environment.helpers';
+import { apiDomainTypeMap, CatalogueItemDomainType, Uuid } from './common-types';
 
-const page = new CataloguePage();
-
-Then(/^I see the model tree$/, () => {
-  page.treeView.ensureIsVisible();
-});
-
-Then(/^The catalogue item detail view is empty$/, () => {
-  page.getDefaultCatalogueItemDetailView().should('be.visible');
-});
-
-Then(/^The catalogue item detail view displays "([^"]*)" of type "([^"]*)"$/, (label, type) => {
-  page.getCatalogueItemView(type)
-    .getLabel()
-    .should('contain.text', label);
-});
+export const makeCatalogueItemPubliclyReadable = (domain: CatalogueItemDomainType, id: Uuid, enable: boolean) => cy.request(
+  enable? 'PUT' : 'DELETE',
+  apiEndpoint(`/${apiDomainTypeMap.get(domain)}/${id}/readByEveryone`),
+  { });

@@ -53,7 +53,7 @@ export interface UserDetails {
 }
 
 export const ensureUserIsLoggedOut = () => {
-  isAuthenticated()
+  return isAuthenticated()
     .then(response => {
       if (!response.body.authenticatedSession) {
         return;

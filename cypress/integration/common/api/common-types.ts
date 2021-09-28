@@ -14,21 +14,26 @@
  * limitations under the License.
  */
 
-import { Then } from 'cypress-cucumber-preprocessor/steps';
-import { CataloguePage } from '../objects/catalogue-page';
+export type Uuid = string;
 
-const page = new CataloguePage();
+export type CatalogueItemDomainType =
+  'DataModel'
+  | 'Terminology'
+  | 'CodeSet'
+  | 'ReferenceDataModel'
+  | 'Folder';
 
-Then(/^I see the model tree$/, () => {
-  page.treeView.ensureIsVisible();
-});
+export type ApiDomainType =
+  'dataModels'
+  | 'terminologies'
+  | 'codeSets'
+  | 'referenceDataModels'
+  | 'folders';
 
-Then(/^The catalogue item detail view is empty$/, () => {
-  page.getDefaultCatalogueItemDetailView().should('be.visible');
-});
-
-Then(/^The catalogue item detail view displays "([^"]*)" of type "([^"]*)"$/, (label, type) => {
-  page.getCatalogueItemView(type)
-    .getLabel()
-    .should('contain.text', label);
-});
+export const apiDomainTypeMap = new Map<CatalogueItemDomainType, ApiDomainType>([
+  ['DataModel', 'dataModels'],
+  ['Terminology', 'terminologies'],
+  ['CodeSet', 'codeSets'],
+  ['ReferenceDataModel', 'referenceDataModels'],
+  ['Folder', 'folders']
+]);
