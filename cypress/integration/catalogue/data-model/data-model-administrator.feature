@@ -21,11 +21,30 @@ Feature: Data Models for administrators
         Given I am logged in as the administrator user
         And I am on the main catalogue browsing page
 
+    @teardown-reset-labels
     Scenario Outline: Edit a Data Model label
-        Given I click on "<original_label>" with version "<version>" in the model tree
-        When I change the selected catalogue item label to "<new_label>"
+        Given I click on "<label>" with version "<version>" in the model tree
+        When I change the selected catalogue item label
         Then The selected catalogue item will be updated successfully
 
         Examples:
-            | original_label            | version   | new_label                 |
-            | Complex Test DataModel    |           | Complex Test DataModel 1  |
+            | label                     | version   |
+            | Complex Test DataModel    |           |
+
+    Scenario Outline: Cancel edit of a Data Model label
+        Given I click on "<label>" with version "<version>" in the model tree
+        When I start changing the label of the selected catalogue item but then cancel
+        Then The selected catalogue item has not been updated
+
+        Examples:
+            | label                     | version   |
+            | Complex Test DataModel    |           |
+
+    Scenario Outline: Enter an empty label for a Data Model
+        Given I click on "<label>" with version "<version>" in the model tree
+        When I clear all text for the label of the selected catalogue item
+        Then I am unable to save the changes made
+
+        Examples:
+            | label                     | version   |
+            | Complex Test DataModel    |           |

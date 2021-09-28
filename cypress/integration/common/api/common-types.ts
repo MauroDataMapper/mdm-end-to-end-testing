@@ -14,6 +14,15 @@
  * limitations under the License.
  */
 
+export const generateQueryString = (parameters: {}) => {
+  if (!parameters) {
+    return '';
+  }
+
+  const query: string[] = Object.keys(parameters).map(key => `${key}=${parameters[key]}`);
+  return (query?.length > 0) ? `?${query.join('&')}` : '';
+}
+
 export type Uuid = string;
 
 export type CatalogueItemDomainType =

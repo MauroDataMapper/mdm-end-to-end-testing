@@ -58,6 +58,8 @@ export type UserActionsMenuOption =
   | 'soft-delete'
   | 'permanent-delete';
 
+export type InlineLabelEditButton = 'save' | 'cancel';
+
 export type UserActionsSubMenuOption =
   'delete-options-menu';
 
@@ -111,6 +113,24 @@ export class CatalogueItemPage extends MdmTemplatePage {
   getLabel() {
     return this.getDetailArea()
       .find('h4[data-cy="catalogue-item-label"]');
+  }
+
+  getLabelText() {
+    return this.getLabel()
+      .find('mdm-inline-text-edit')
+      .find('span.dataModelDetailsLabel');
+  }
+
+  getLabelInlineEditField() {
+    return this.getLabel()
+      .find('mdm-inline-text-edit')
+      .find('input[type="text"]');
+  }
+
+  getLabelInlineEditButton(button: InlineLabelEditButton) {
+    return this.getLabel()
+      .find('mdm-inline-text-edit')
+      .find(`button[data-cy="${button}"]`);
   }
 
   getModelProperty(name: CatalogueItemPropertyIdentifier) {
