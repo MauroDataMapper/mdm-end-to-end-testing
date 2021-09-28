@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-Feature: Data Models for anonymous users
+Feature: Allowed actions for anonymous users
 
     As an anonymous user of Mauro
     I want to view public models in Mauro but not administrate them
@@ -21,7 +21,7 @@ Feature: Data Models for anonymous users
         Given I am an anonymous user
         And I am on the main catalogue browsing page
 
-    Scenario Outline: I cannot edit a Data Model label
+    Scenario Outline: I cannot edit a catalogue item label
         Given An administrator has marked "<label>" - version: "<version>" - as publicly readable
         And I am an anonymous user
         And I am on the main catalogue browsing page
@@ -29,5 +29,7 @@ Feature: Data Models for anonymous users
         Then I cannot edit the label of the selected catalogue item
 
         Examples:
-            | label                     | version   |
-            | Complex Test DataModel    |           |
+            | label                             | version   |
+            | Complex Test DataModel            |           |
+            | Unfinalised Simple Test CodeSet   |           |
+            | Complex Test Terminology          |           |

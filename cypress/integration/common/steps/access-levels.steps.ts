@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { Given } from 'cypress-cucumber-preprocessor/steps';
+import { Given, Then } from 'cypress-cucumber-preprocessor/steps';
 import { CataloguePage } from '../../catalogue/objects/catalogue-page';
 import { makeCatalogueItemPubliclyReadable } from '../api/access-levels';
 import { ensureUserIsLoggedOut, loginAsUser } from '../helpers/security.helpers';
@@ -36,4 +36,12 @@ Given(/^An administrator has marked "([^"]*)" - version: "([^"]*)" - as publicly
     .log('Sign out as administrator')
     .then(() => ensureUserIsLoggedOut())
     .then(() => cy.reload());
+});
+
+Then(/^I cannot edit the label of the selected catalogue item$/, () => {
+  catalogue.getCurrentlyLoadedCatalogueItemView()
+    .then(page => {
+      page.openUserActionsMenu();
+      page.getUserActionsMenuButton('edit-label').should('not.exist');
+    });
 });

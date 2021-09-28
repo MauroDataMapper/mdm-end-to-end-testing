@@ -14,6 +14,11 @@
  * limitations under the License.
  */
 
+export interface ModelTreeNodeSelection {
+  label: string;
+  version?: string;
+}
+
 /**
  * Determine if a branch name represents the "main" branch of a model.
  *
