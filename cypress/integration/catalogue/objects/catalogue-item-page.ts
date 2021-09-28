@@ -136,16 +136,16 @@ export class CatalogueItemPage extends MdmTemplatePage {
   }
 
   openUserActionsMenu() {
-    this.getOptionButton('user-actions-menu').click();
+    return this.getOptionButton('user-actions-menu').click();
   }
 
   expandUserActionsSubMenu(option: UserActionsSubMenuOption) {
-    this.getUserActionsMenuButton(option)
+    return this.getUserActionsMenuButton(option)
       .trigger('mouseenter');
   }
 
   collapseUserActionsSubMenu(option: UserActionsSubMenuOption) {
-    this.getUserActionsMenuButton(option)
+    return this.getUserActionsMenuButton(option)
       .trigger('mouseexit');
   }
 

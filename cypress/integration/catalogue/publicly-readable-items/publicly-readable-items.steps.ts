@@ -45,23 +45,6 @@ Then(/^The selected catalogue item is now public for anyone to read$/, () => {
     .should('contain.text', 'Publicly Readable');
 });
 
-Given(/^An administrator has marked "([^"]*)" - version: "([^"]*)" - as publicly readable$/, (label, version) => {
-  ensureUserIsLoggedOut()
-    .log('Sign in as administrator')
-    .then(() => loginAsUser('administrator'))
-    .then(() => catalogue.visit())
-    .log('Find catalogue item to display')
-    .then(() => catalogue.treeView.tree.ensureExpanded(['Development Folder']))
-    .then(() => catalogue.treeView.tree.getTreeNode(label, version).click())
-    .log('Prepare catalogue item to be publicly readable')
-    .then(() => catalogue.getCurrentlyLoadedCatalogueItemView())
-    .then(page => page.getMauroData())
-    .then(item => makeCatalogueItemPubliclyReadable(item.domain, item.id, true))
-    .log('Sign out as administrator')
-    .then(() => ensureUserIsLoggedOut())
-    .then(() => cy.reload());
-});
-
 Then(/^I can read the selected catalogue item$/, () => {
   catalogue.getCurrentlyLoadedCatalogueItemView()
     .then(page => {
