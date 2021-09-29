@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 
+import { generateQueryString } from '../api/common-types';
+
 export type UserIdentifier = 'administrator';
 
 /**
@@ -37,9 +39,9 @@ export interface Users {
  * @param url An optional relative URL to append.
  * @returns The full API endpoint to use.
  */
-export const apiEndpoint = (url?: string) => {
+export const apiEndpoint = (url?: string, query?: {}) => {
   const baseUrl = Cypress.env('apiEndpoint');
-  return !url ? baseUrl : `${baseUrl}${url}`;
+  return !url ? baseUrl : `${baseUrl}${url}${generateQueryString(query)}`;
 };
 
 /**

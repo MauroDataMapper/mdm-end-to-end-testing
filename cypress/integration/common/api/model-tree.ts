@@ -14,15 +14,23 @@
  * limitations under the License.
  */
 
-export interface ModelTreeNodeSelection {
+import { apiEndpoint } from '../helpers/environment.helpers';
+import { CatalogueItemDomainType, Uuid } from './common-types';
+
+export interface MdmTreeNode {
+  [key: string]: any;
+  id: Uuid;
+  domainType: CatalogueItemDomainType;
   label: string;
-  version?: string;
+  hasChildren?: boolean;
+  children?: MdmTreeNode[];
 }
 
-/**
- * Determine if a branch name represents the "main" branch of a model.
- *
- * @param name The string to test.
- * @returns True if `name` represents a "main" model branch.
- */
-export const isMainBranch = (name: string) => name.indexOf('main') !== -1;
+export const getModelTree = () => cy.request<MdmTreeNode[]>(
+  apiEndpoint(
+    '/tree/folders',
+    {
+      includeDocumentSuperseded: false,
+      includeModelSuperseded: true,
+      includeDeleted: false
+    }));

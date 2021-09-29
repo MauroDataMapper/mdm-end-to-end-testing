@@ -58,6 +58,8 @@ export type UserActionsMenuOption =
   | 'soft-delete'
   | 'permanent-delete';
 
+export type InlineLabelEditButton = 'save' | 'cancel';
+
 export type UserActionsSubMenuOption =
   'delete-options-menu';
 
@@ -113,6 +115,24 @@ export class CatalogueItemPage extends MdmTemplatePage {
       .find('h4[data-cy="catalogue-item-label"]');
   }
 
+  getLabelText() {
+    return this.getLabel()
+      .find('mdm-inline-text-edit')
+      .find('span.dataModelDetailsLabel');
+  }
+
+  getLabelInlineEditField() {
+    return this.getLabel()
+      .find('mdm-inline-text-edit')
+      .find('input[type="text"]');
+  }
+
+  getLabelInlineEditButton(button: InlineLabelEditButton) {
+    return this.getLabel()
+      .find('mdm-inline-text-edit')
+      .find(`button[data-cy="${button}"]`);
+  }
+
   getModelProperty(name: CatalogueItemPropertyIdentifier) {
     return this.getDetailArea()
       .find('div[data-cy="catalogue-item-properties"]')
@@ -136,16 +156,16 @@ export class CatalogueItemPage extends MdmTemplatePage {
   }
 
   openUserActionsMenu() {
-    this.getOptionButton('user-actions-menu').click();
+    return this.getOptionButton('user-actions-menu').click();
   }
 
   expandUserActionsSubMenu(option: UserActionsSubMenuOption) {
-    this.getUserActionsMenuButton(option)
+    return this.getUserActionsMenuButton(option)
       .trigger('mouseenter');
   }
 
   collapseUserActionsSubMenu(option: UserActionsSubMenuOption) {
-    this.getUserActionsMenuButton(option)
+    return this.getUserActionsMenuButton(option)
       .trigger('mouseexit');
   }
 

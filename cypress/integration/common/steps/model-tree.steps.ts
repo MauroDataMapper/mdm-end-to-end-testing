@@ -16,6 +16,7 @@
 
 import { Given, When } from 'cypress-cucumber-preprocessor/steps';
 import { CataloguePage } from '../../catalogue/objects/catalogue-page';
+import { ModelTreeNodeSelection } from '../helpers/model.helpers';
 
 const page = new CataloguePage();
 
@@ -29,6 +30,7 @@ When(/^I click on "([^"]*)" in the model tree$/, (label) => {
 });
 
 When(/^I click on "([^"]*)" with version "([^"]*)" in the model tree$/, (label, version) => {
+  cy.wrap<ModelTreeNodeSelection>({ label, version }).as('currentItem');
   page.treeView.tree.ensureExpanded(['Development Folder']);
   page.treeView.tree.getTreeNode(label, version).click();
 });
