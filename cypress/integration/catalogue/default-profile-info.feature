@@ -78,4 +78,13 @@ Feature: Default profile information
             | label                     | version   |
             | Complex Test DataModel    |           |
 
-    # TODO: cannot edit finalised
+    Scenario Outline: Cannot modify a finalised model
+        Given I am logged in as the administrator user
+        And I am on the main catalogue browsing page
+        When I click on "<label>" with version "<version>" in the model tree
+        Then I can see the selected catalogue item's default profile
+        And I cannot modify the selected catalogue item's default profile
+
+        Examples:
+            | label                         | version   |
+            | Model Version Tree DataModel  | 5.0.0     |
