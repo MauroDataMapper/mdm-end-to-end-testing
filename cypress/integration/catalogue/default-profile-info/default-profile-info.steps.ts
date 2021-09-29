@@ -19,9 +19,11 @@ import { isModelTypeDomain } from '../../common/helpers/model.helpers';
 import { CataloguePage } from '../objects/catalogue-page';
 import { EditDefaultProfileDialog } from '../objects/dialogs/edit-default-profile-dialog';
 import { lorem } from 'faker';
+import { ConfirmationDialog } from '../objects/dialogs/confirmation-dialog';
 
 const catalogue = new CataloguePage();
 const editDialog = new EditDefaultProfileDialog();
+const confirmationDialog = new ConfirmationDialog();
 
 When(/^I edit the description of the selected catalogue item$/, () => {
   const description = lorem.sentence();
@@ -34,6 +36,20 @@ When(/^I edit the description of the selected catalogue item$/, () => {
     .clear()
     .type(description)
     .then(() => editDialog.getContinueButton().click());
+});
+
+When(/^I start to edit the description of the selected catalogue item but do not save$/, () => {
+  const description = lorem.sentence();
+  cy.wrap(description).as('newDescription');
+
+  catalogue.getCurrentlyLoadedCatalogueItemView()
+    .then(page => page.startEditDescription())
+    .then(() => editDialog.ensureDialogIsVisible())
+    .then(() => editDialog.getEditField('description'))
+    .clear()
+    .type(description)
+    .then(() => editDialog.getCancelButton().click())
+    .then(() => confirmationDialog.getContinueButton().click());
 });
 
 Then(/^I can see the selected catalogue item's default profile$/, () => {
@@ -71,5 +87,21 @@ Then(/^The new description appears in the selected catalogue item$/, () => {
       data.page
         .getDefaultProfileProperty('description')
         .should('contain.text', data.newDescription);
+    });
+});
+
+Then(/^The description is unchanged$/, () => {
+  catalogue.getCurrentlyLoadedCatalogueItemView()
+    .then(page => {
+      return cy.get<string>('@newDescription')
+        .then(desc => cy.wrap({
+          page,
+          newDescription: desc
+        }));
+    })
+    .then(data => {
+      data.page
+        .getDefaultProfileProperty('description')
+        .should('not.contain.text', data.newDescription);
     });
 });

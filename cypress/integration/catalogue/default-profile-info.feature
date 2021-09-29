@@ -45,6 +45,17 @@ Feature: Default profile information
             | Development Folder        |           |
 
     # TODO: cancel edit description
+    Scenario Outline: Administrator cancels modification of description only
+        Given I am logged in as the administrator user
+        And I am on the main catalogue browsing page
+        When I click on "<label>" with version "<version>" in the model tree
+        And I start to edit the description of the selected catalogue item but do not save
+        Then The description is unchanged
+
+        Examples:
+            | label                     | version   |
+            | Complex Test DataModel    |           |
+            | Development Folder        |           |
 
     # TODO: edit all profile fields
 
