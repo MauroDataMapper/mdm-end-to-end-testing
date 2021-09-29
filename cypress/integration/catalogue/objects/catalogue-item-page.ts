@@ -218,4 +218,13 @@ export class CatalogueItemPage extends MdmTemplatePage {
       .find(`button[data-cy="edit-description"]`)
       .click();
   }
+
+  startEditAllDefaultProfile() {
+    return this.getDefaultProfileEditButton()
+      .click()
+      .then(() => cy.get('div.cdk-overlay-container'))
+      .find('div.mat-menu-content')
+      .find(`button[data-cy="edit-all"]`)
+      .click();
+  }
 }

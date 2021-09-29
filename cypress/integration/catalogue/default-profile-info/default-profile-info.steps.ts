@@ -21,6 +21,12 @@ import { EditDefaultProfileDialog } from '../objects/dialogs/edit-default-profil
 import { lorem } from 'faker';
 import { ConfirmationDialog } from '../objects/dialogs/confirmation-dialog';
 
+interface DefaultProfileValues {
+  description?: string;
+  organisation?: string;
+  author?: string;
+}
+
 const catalogue = new CataloguePage();
 const editDialog = new EditDefaultProfileDialog();
 const confirmationDialog = new ConfirmationDialog();
@@ -50,6 +56,30 @@ When(/^I start to edit the description of the selected catalogue item but do not
     .type(description)
     .then(() => editDialog.getCancelButton().click())
     .then(() => confirmationDialog.getContinueButton().click());
+});
+
+When(/^I edit the default profile fields of the selected catalogue item$/, () => {
+  const newProfileValues: DefaultProfileValues = {
+    description: lorem.sentence(),
+    organisation: lorem.words(3),
+    author: lorem.words(2)
+  };
+
+  cy.wrap(newProfileValues).as('newProfileValues');
+
+  catalogue.getCurrentlyLoadedCatalogueItemView()
+    .then(page => page.startEditAllDefaultProfile())
+    .then(() => editDialog.ensureDialogIsVisible())
+    .then(() => editDialog.getEditField('description'))
+    .clear()
+    .type(newProfileValues.description)
+    .then(() => editDialog.getEditField('organisation'))
+    .clear()
+    .type(newProfileValues.organisation)
+    .then(() => editDialog.getEditField('author'))
+    .clear()
+    .type(newProfileValues.author)
+    .then(() => editDialog.getContinueButton().click());
 });
 
 Then(/^I can see the selected catalogue item's default profile$/, () => {
@@ -103,5 +133,29 @@ Then(/^The description is unchanged$/, () => {
       data.page
         .getDefaultProfileProperty('description')
         .should('not.contain.text', data.newDescription);
+    });
+});
+
+Then(/^The new default profile values appears in the selected catalogue item$/, () => {
+  catalogue.getCurrentlyLoadedCatalogueItemView()
+    .then(page => {
+      return cy.get<DefaultProfileValues>('@newProfileValues')
+        .then(values => cy.wrap({
+          page,
+          newProfileValues: values
+        }));
+    })
+    .then(data => {
+      data.page
+        .getDefaultProfileProperty('description')
+        .should('contain.text', data.newProfileValues.description);
+
+      data.page
+        .getDefaultProfileProperty('organisation')
+        .should('contain.text', data.newProfileValues.organisation);
+
+      data.page
+        .getDefaultProfileProperty('author')
+        .should('contain.text', data.newProfileValues.author);
     });
 });

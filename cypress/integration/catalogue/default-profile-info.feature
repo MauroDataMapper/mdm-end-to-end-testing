@@ -44,7 +44,6 @@ Feature: Default profile information
             | Complex Test DataModel    |           |
             | Development Folder        |           |
 
-    # TODO: cancel edit description
     Scenario Outline: Administrator cancels modification of description only
         Given I am logged in as the administrator user
         And I am on the main catalogue browsing page
@@ -57,6 +56,17 @@ Feature: Default profile information
             | Complex Test DataModel    |           |
             | Development Folder        |           |
 
-    # TODO: edit all profile fields
+    Scenario Outline: Administrator can modify all default profile fields
+        Given I am logged in as the administrator user
+        And I am on the main catalogue browsing page
+        When I click on "<label>" with version "<version>" in the model tree
+        And I edit the default profile fields of the selected catalogue item
+        Then The new default profile values appears in the selected catalogue item
+
+        Examples:
+            | label                     | version   |
+            | Complex Test DataModel    |           |
 
     # TODO: cancel edit all profile fields
+
+    # TODO: cannot edit finalised
