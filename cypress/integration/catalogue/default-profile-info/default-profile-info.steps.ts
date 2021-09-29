@@ -82,6 +82,31 @@ When(/^I edit the default profile fields of the selected catalogue item$/, () =>
     .then(() => editDialog.getContinueButton().click());
 });
 
+When(/^I start to edit the default profile fields of the selected catalogue item but do not save$/, () => {
+  const newProfileValues: DefaultProfileValues = {
+    description: lorem.sentence(),
+    organisation: lorem.words(3),
+    author: lorem.words(2)
+  };
+
+  cy.wrap(newProfileValues).as('newProfileValues');
+
+  catalogue.getCurrentlyLoadedCatalogueItemView()
+    .then(page => page.startEditAllDefaultProfile())
+    .then(() => editDialog.ensureDialogIsVisible())
+    .then(() => editDialog.getEditField('description'))
+    .clear()
+    .type(newProfileValues.description)
+    .then(() => editDialog.getEditField('organisation'))
+    .clear()
+    .type(newProfileValues.organisation)
+    .then(() => editDialog.getEditField('author'))
+    .clear()
+    .type(newProfileValues.author)
+    .then(() => editDialog.getCancelButton().click())
+    .then(() => confirmationDialog.getContinueButton().click());
+});
+
 Then(/^I can see the selected catalogue item's default profile$/, () => {
   catalogue.getCurrentTrackedView()
     .then(view => view.page.getTab('Description').click().wrap(view))
@@ -157,5 +182,29 @@ Then(/^The new default profile values appears in the selected catalogue item$/, 
       data.page
         .getDefaultProfileProperty('author')
         .should('contain.text', data.newProfileValues.author);
+    });
+});
+
+Then(/^The default profile fields are unchanged$/, () => {
+  catalogue.getCurrentlyLoadedCatalogueItemView()
+    .then(page => {
+      return cy.get<DefaultProfileValues>('@newProfileValues')
+        .then(values => cy.wrap({
+          page,
+          newProfileValues: values
+        }));
+    })
+    .then(data => {
+      data.page
+        .getDefaultProfileProperty('description')
+        .should('not.contain.text', data.newProfileValues.description);
+
+      data.page
+        .getDefaultProfileProperty('organisation')
+        .should('not.contain.text', data.newProfileValues.organisation);
+
+      data.page
+        .getDefaultProfileProperty('author')
+        .should('not.contain.text', data.newProfileValues.author);
     });
 });

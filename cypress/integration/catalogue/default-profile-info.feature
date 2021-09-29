@@ -67,6 +67,15 @@ Feature: Default profile information
             | label                     | version   |
             | Complex Test DataModel    |           |
 
-    # TODO: cancel edit all profile fields
+    Scenario Outline: Administrator cancels modification of default profile fields
+        Given I am logged in as the administrator user
+        And I am on the main catalogue browsing page
+        When I click on "<label>" with version "<version>" in the model tree
+        And I start to edit the default profile fields of the selected catalogue item but do not save
+        Then The default profile fields are unchanged
+
+        Examples:
+            | label                     | version   |
+            | Complex Test DataModel    |           |
 
     # TODO: cannot edit finalised
