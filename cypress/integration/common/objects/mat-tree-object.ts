@@ -55,7 +55,7 @@ export class MatTreeObject {
   }
 
   expandTreeNode(name: string) {
-    this
+    return this
       .isTreeNodeExpanded(name)
       .then(expanded => {
         if (!expanded) {
@@ -65,7 +65,7 @@ export class MatTreeObject {
   }
 
   collapseTreeNode(name: string) {
-    this
+    return this
       .isTreeNodeExpanded(name)
       .then(expanded => {
         if (expanded) {
@@ -80,7 +80,10 @@ export class MatTreeObject {
    * @param names One or more node names/labels.
    */
   ensureExpanded(names: string[]) {
-    names.forEach(name => this.expandTreeNode(name));
+    return cy.wrap(names)
+      .each((item: string) => {
+        this.expandTreeNode(item);
+      });
   }
 
   private getTreeNodeExpander(name: string) {

@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 
+import { CatalogueItemTrackedView } from '../../common/objects/alias-objects';
 import { MdmTemplatePage } from '../../common/objects/mdm-template-page';
 import { FolderPage } from './containers/folder-page';
 import { ModelTreeView } from './model-tree-view';
@@ -75,5 +76,12 @@ export class CataloguePage extends MdmTemplatePage {
         expect(page, `page with tag name '<${viewName}>'`).is.not.undefined;
         return cy.wrap(page);
       });
+  }
+
+  getCurrentTrackedView() {
+    return this.getCurrentlyLoadedCatalogueItemView()
+      .then(page => page.getMauroData()
+        .then(data => cy.wrap<CatalogueItemTrackedView>({ page, data }))
+      );
   }
 }

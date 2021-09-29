@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 
+import { CatalogueItemDomainType } from '../api/common-types';
+
 export interface ModelTreeNodeSelection {
   label: string;
   version?: string;
@@ -26,3 +28,11 @@ export interface ModelTreeNodeSelection {
  * @returns True if `name` represents a "main" model branch.
  */
 export const isMainBranch = (name: string) => name.indexOf('main') !== -1;
+
+export const isContainerTypeDomain = (domain: CatalogueItemDomainType) => domain === 'Folder';
+
+export const isModelTypeDomain = (domain: CatalogueItemDomainType) => 
+  domain === 'DataModel' 
+  || domain === 'Terminology' 
+  || domain === 'CodeSet' 
+  || domain === 'ReferenceDataModel';
