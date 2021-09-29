@@ -16,7 +16,6 @@
 
 import { Given, Then, When } from 'cypress-cucumber-preprocessor/steps';
 import { makeCatalogueItemPubliclyReadable } from '../../common/api/access-levels';
-import { ensureUserIsLoggedOut, loginAsUser } from '../../common/helpers/security.helpers';
 import { CataloguePage } from '../objects/catalogue-page';
 import { UserGroupAccessDialog } from '../objects/dialogs/user-group-access-dialog';
 

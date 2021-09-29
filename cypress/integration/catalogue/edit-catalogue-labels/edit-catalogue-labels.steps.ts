@@ -1,12 +1,12 @@
 /**
  * Copyright 2021 University of Oxford
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *     http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -58,12 +58,12 @@ When(/^I clear all text for the label of the selected catalogue item$/, () => {
 
 Then(/^The selected catalogue item will be updated successfully$/, () => {
   catalogue.getCurrentlyLoadedCatalogueItemView()
-    .then(page => page.getLabelText().should('contain.text', labelTestSuffix));      
+    .then(page => page.getLabelText().should('contain.text', labelTestSuffix));
 });
 
 Then(/^The selected catalogue item label is reverted back$/, () => {
   cy.get<ModelTreeNodeSelection>('@currentItem')
-    .then(item => triggerLabelEdit(item.label, 'save'));  
+    .then(item => triggerLabelEdit(item.label, 'save'));
 });
 
 Then(/^The selected catalogue item has not been updated$/, () => {
