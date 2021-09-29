@@ -14,12 +14,27 @@
  * limitations under the License.
  */
 
-import { Then } from 'cypress-cucumber-preprocessor/steps';
+import { Then, When } from 'cypress-cucumber-preprocessor/steps';
 import { isModelTypeDomain } from '../../common/helpers/model.helpers';
 import { CataloguePage } from '../objects/catalogue-page';
-
+import { EditDefaultProfileDialog } from '../objects/dialogs/edit-default-profile-dialog';
+import { lorem } from 'faker';
 
 const catalogue = new CataloguePage();
+const editDialog = new EditDefaultProfileDialog();
+
+When(/^I edit the description of the selected catalogue item$/, () => {
+  const description = lorem.sentence();
+  cy.wrap(description).as('newDescription');
+
+  catalogue.getCurrentlyLoadedCatalogueItemView()
+    .then(page => page.startEditDescription())
+    .then(() => editDialog.ensureDialogIsVisible())
+    .then(() => editDialog.getEditField('description'))
+    .clear()
+    .type(description)
+    .then(() => editDialog.getContinueButton().click());
+});
 
 Then(/^I can see the selected catalogue item's default profile$/, () => {
   catalogue.getCurrentTrackedView()
@@ -33,12 +48,28 @@ Then(/^I can see the selected catalogue item's default profile$/, () => {
         view.page.getDefaultProfileProperty('aliases').should('be.visible');
         view.page.getDefaultProfileProperty('author').should('be.visible');
         view.page.getDefaultProfileProperty('organisation').should('be.visible');
-        view.page.getDefaultProfileProperty('classifications').should('be.visible');        
+        view.page.getDefaultProfileProperty('classifications').should('be.visible');
       }
-    });  
+    });
 });
 
 Then(/^I cannot modify the selected catalogue item's default profile$/, () => {
   catalogue.getCurrentlyLoadedCatalogueItemView()
     .then(page => page.getDefaultProfileEditButton().should('not.exist'));
+});
+
+Then(/^The new description appears in the selected catalogue item$/, () => {
+  catalogue.getCurrentlyLoadedCatalogueItemView()
+    .then(page => {
+      return cy.get<string>('@newDescription')
+        .then(desc => cy.wrap({
+          page,
+          newDescription: desc
+        }));
+    })
+    .then(data => {
+      data.page
+        .getDefaultProfileProperty('description')
+        .should('contain.text', data.newDescription);
+    });
 });

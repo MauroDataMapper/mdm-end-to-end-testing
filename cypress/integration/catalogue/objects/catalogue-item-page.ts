@@ -205,7 +205,17 @@ export class CatalogueItemPage extends MdmTemplatePage {
   }
 
   getDefaultProfileEditButton() {
-    return this.getDefaultProfile()
+    return this.getTabGroup()
+      .find('mdm-profile-data-view')
       .find('button[data-cy="edit-default"]');
+  }
+
+  startEditDescription() {
+    return this.getDefaultProfileEditButton()
+      .click()
+      .then(() => cy.get('div.cdk-overlay-container'))
+      .find('div.mat-menu-content')
+      .find(`button[data-cy="edit-description"]`)
+      .click();
   }
 }

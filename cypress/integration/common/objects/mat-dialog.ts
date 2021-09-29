@@ -1,12 +1,12 @@
 /**
  * Copyright 2021 University of Oxford
- *
+ * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
+ * 
  *     http://www.apache.org/licenses/LICENSE-2.0
- *
+ * 
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -14,24 +14,30 @@
  * limitations under the License.
  */
 
-import { MatDialog } from '../../../common/objects/mat-dialog';
+export class MatDialog {
+  constructor(protected containerSelector: string) { }
 
-export type UserAccessOption =
-  'shareReadWithEveryone'
-  | 'shareReadWithAuthenticated';
-
-export class UserGroupAccessDialog extends MatDialog {  
-  constructor() {
-    super('mdm-security-modal');
+  getContainer() {
+    return cy.get('mat-dialog-container')
+      .find(this.containerSelector);
   }
 
-  getUserAccessOption(option: UserAccessOption) {
+  ensureDialogIsVisible() {
+    return this.getContainer().should('be.visible');
+  }
+
+  getCloseButton() {
     return this.getContainer()
-      .find(`mat-checkbox[name="${option}"]`);
+      .find('button.close-modal');
   }
 
-  getUserAccessOptionRawInput(option: UserAccessOption) {
-    return this.getUserAccessOption(option)
-      .find('input[type="checkbox"][name="shareReadWithEveryone"]');
+  getCancelButton() {
+    return this.getContainer()
+      .find('button[data-cy="cancel"]');
+  }
+
+  getContinueButton() {
+    return this.getContainer()
+      .find('button[data-cy="continue"]');
   }
 }

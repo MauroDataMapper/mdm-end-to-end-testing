@@ -31,3 +31,21 @@ Feature: Default profile information
             | label                     | version   |
             | Complex Test DataModel    |           |
             | Development Folder        |           |
+
+    Scenario Outline: Administrator can modify description only
+        Given I am logged in as the administrator user
+        And I am on the main catalogue browsing page
+        When I click on "<label>" with version "<version>" in the model tree
+        And I edit the description of the selected catalogue item
+        Then The new description appears in the selected catalogue item
+
+        Examples:
+            | label                     | version   |
+            | Complex Test DataModel    |           |
+            | Development Folder        |           |
+
+    # TODO: cancel edit description
+
+    # TODO: edit all profile fields
+
+    # TODO: cancel edit all profile fields
