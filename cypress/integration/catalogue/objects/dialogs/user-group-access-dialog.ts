@@ -20,7 +20,7 @@ export type UserAccessOption =
   'shareReadWithEveryone'
   | 'shareReadWithAuthenticated';
 
-export class UserGroupAccessDialog extends MatDialog {  
+export class UserGroupAccessDialog extends MatDialog {
   constructor() {
     super('mdm-security-modal');
   }

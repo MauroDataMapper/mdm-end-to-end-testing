@@ -31,8 +31,8 @@ export const isMainBranch = (name: string) => name.indexOf('main') !== -1;
 
 export const isContainerTypeDomain = (domain: CatalogueItemDomainType) => domain === 'Folder';
 
-export const isModelTypeDomain = (domain: CatalogueItemDomainType) => 
-  domain === 'DataModel' 
-  || domain === 'Terminology' 
-  || domain === 'CodeSet' 
+export const isModelTypeDomain = (domain: CatalogueItemDomainType) =>
+  domain === 'DataModel'
+  || domain === 'Terminology'
+  || domain === 'CodeSet'
   || domain === 'ReferenceDataModel';

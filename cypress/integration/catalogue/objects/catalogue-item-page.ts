@@ -63,7 +63,7 @@ export type InlineLabelEditButton = 'save' | 'cancel';
 export type UserActionsSubMenuOption =
   'delete-options-menu';
 
-export type DefaultProfileProperty = 
+export type DefaultProfileProperty =
   'aliases'
   | 'description'
   | 'multipicity'
@@ -215,7 +215,7 @@ export class CatalogueItemPage extends MdmTemplatePage {
       .click()
       .then(() => cy.get('div.cdk-overlay-container'))
       .find('div.mat-menu-content')
-      .find(`button[data-cy="edit-description"]`)
+      .find('button[data-cy="edit-description"]')
       .click();
   }
 
@@ -224,7 +224,7 @@ export class CatalogueItemPage extends MdmTemplatePage {
       .click()
       .then(() => cy.get('div.cdk-overlay-container'))
       .find('div.mat-menu-content')
-      .find(`button[data-cy="edit-all"]`)
+      .find('button[data-cy="edit-all"]')
       .click();
   }
 }
