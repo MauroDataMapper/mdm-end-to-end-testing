@@ -43,7 +43,6 @@ Given(/^I log in with username  administrator user$/, () => {
 });
 
 When(/^I login as "([^"]*)" with "([^"]*)"$/, (username, password) => {
-  page.getLogInButton().click();
   loginForm.login(username, password);
 });
 
