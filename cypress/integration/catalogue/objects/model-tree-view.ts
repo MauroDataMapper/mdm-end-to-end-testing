@@ -17,9 +17,5 @@
 import { MatTreeObject } from '../../common/objects/mat-tree-object';
 
 export class ModelTreeView {
-  tree = new MatTreeObject('mdm-folders-tree');
-
-  ensureIsVisible() {
-    this.tree.getTree().should('be.visible');
-  }
+  tree = new MatTreeObject('mdm-folders-tree', 'Models');  
 }

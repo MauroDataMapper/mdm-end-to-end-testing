@@ -25,12 +25,12 @@ Given(/^I am on the main catalogue browsing page$/, () => {
 });
 
 When(/^I click on "([^"]*)" in the model tree$/, (label) => {
-  page.treeView.tree.ensureExpanded(['Development Folder']);
-  page.treeView.tree.getTreeNode(label).click();
+  page.models.tree.ensureExpanded(['Development Folder']);
+  page.models.tree.getTreeNode(label).click();
 });
 
 When(/^I click on "([^"]*)" with version "([^"]*)" in the model tree$/, (label, version) => {
   cy.wrap<ModelTreeNodeSelection>({ label, version }).as('currentItem');
-  page.treeView.tree.ensureExpanded(['Development Folder']);
-  page.treeView.tree.getTreeNode(label, version).click();
+  page.models.tree.ensureExpanded(['Development Folder']);
+  page.models.tree.getTreeNode(label, version).click();
 });
