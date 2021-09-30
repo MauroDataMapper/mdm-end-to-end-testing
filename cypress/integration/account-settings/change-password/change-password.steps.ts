@@ -13,17 +13,5 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { When } from 'cypress-cucumber-preprocessor/steps';
-import { HomePage } from '../../pages/home-page/home-page';
-import {MdmTemplatePage} from "../objects/mdm-template-page";
 
-const page = new MdmTemplatePage();
-
-
-When('I go to the home page', () => {
-  new HomePage().visit();
-});
-
-When('I go to change my password', () => {
-  page.changePasswordFromUserProfileMenu();
-});
+import { After, Given, Then, When } from 'cypress-cucumber-preprocessor/steps';

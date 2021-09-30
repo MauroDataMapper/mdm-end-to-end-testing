@@ -14,6 +14,23 @@
  * limitations under the License.
  */
 
+import {UserActionsMenuOption} from "../../catalogue/objects/catalogue-item-page";
+
+export type ProfileMenuActionsOption = 'menu-profile'
+    | 'menu-preferences'
+    | 'menu-change-password'
+    | 'menu-api-keys'
+    | 'menu-admin-dashboard'
+    | 'menu-admin-model-management'
+    | 'menu-admin-subscribed-catalogues'
+    | 'menu-admin-emails'
+    | 'menu-admin-manage-users'
+    | 'menu-admin-pending-users'
+    | 'menu-admin-manage-groups'
+    | 'menu-admin-openidconnect'
+    | 'menu-admin-configuration'
+    | 'menu-logout';
+
 /**
  * Base class for all Mauro pages following the standard template (logo, navbar, login/user profile etc).
  */
@@ -38,17 +55,20 @@ export class MdmTemplatePage {
     return cy.get('div.mat-menu-content');
   }
 
-  getLogoutButtonFromUserProfileMenu() {
-    // There appears to be two logout buttons, possibly to cater for responsive screen sizes.
-    // Only one is required though
-    return this.getUserProfileMenu()
-      .get('button#navbar-logout')
-      .last();
+  getProfileMenuButton(option: ProfileMenuActionsOption) {
+    return cy.get('div.cdk-overlay-container')
+        .find('div.mat-menu-content')
+        .find(`[data-cy="${option}"]`);
+  }
+
+  changePasswordFromUserProfileMenu() {
+    this.getUserProfileName().click();
+    //this.getProfileMenuButton('menu-change-password').click();
   }
 
   logoutViaUserProfileMenu() {
     this.getUserProfileName().click();
-    this.getLogoutButtonFromUserProfileMenu().click();
+    this.getProfileMenuButton('menu-logout').click();
   }
 
   closeOverlayMenu() {

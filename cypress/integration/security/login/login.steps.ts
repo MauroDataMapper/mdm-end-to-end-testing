@@ -29,17 +29,8 @@ After(() => {
   homePage.visit();
 });
 
-Given(/^I am logged out$/, () => {
-  ensureUserIsLoggedOut();
-});
 
-Given(/^I open the Log in form$/, () => {
-  page.getLogInButton().click();
-});
 
-When(/^I login as "([^"]*)" with "([^"]*)"$/, (username, password) => {
-  loginForm.login(username, password);
-});
 
 When(/^I login with no inputs in the form fields$/, () => {
   loginForm.login();
@@ -49,10 +40,10 @@ When(/^I login as "([^"]*)"$/, (username) => {
   loginForm.login(username, 'password');
 });
 
-Then(/^I am logged in as "([^"]*)"$/, (name) => {
-  page.getUserProfileImage().should('exist');
-  page.getUserProfileName().contains(name);
+Given(/^I open the Log in form$/, () => {
+  page.getLogInButton().click();
 });
+
 
 Then(/^I am not logged in$/, () => {
   loginForm.getForm().should('be.visible');
