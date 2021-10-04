@@ -75,8 +75,17 @@ pipeline {
         stage('Test') {
             steps {
                 nvm('') {
-                    catchError(buildResult: 'UNSTABLE', stageResult: 'UNSTABLE') {
-                        sh '. ./.env.test && CYPRESS_BASE_URL=http://localhost:$MDM_PORT cypress_api_server=http://localhost:$MDM_PORT/api npm test'
+                    script {
+                        int retStatus = sh(returnStatus: true,
+                                           script: '. ./.env.test && CYPRESS_BASE_URL=http://localhost:$MDM_PORT cypress_api_server=http://localhost:$MDM_PORT/api npm test')
+                        if (retStatus == 1) {
+                            // Cypress returns the number of test failures as the exit code
+                            // It returns 1 if there was a failure stopping it from running (such as MDM not being available)
+                            // This does produce an issue if only 1 test fails...room for thought
+                            error 'Cypress could not run'
+                        } else if(retStatus > 0){
+                            unstable "$retStatus test failures"
+                        }
                     }
                 }
             }
@@ -101,18 +110,13 @@ pipeline {
                 junit allowEmptyResults: true, testResults: '**/cypress/reports/*.xml'
             }
         }
-
-        stage('Stop MDM') {
-            steps {
-                dir('mdm-docker') {
-                    sh 'echo Shutting down mdm-docker'
-                    sh 'docker-compose -p "${JOB_BASE_NAME}_${BUILD_NUMBER}" down -v'
-                }
-            }
-        }
     }
     post {
         always {
+            dir('mdm-docker') {
+                sh 'echo Shutting down mdm-docker'
+                sh 'docker-compose -p "${JOB_BASE_NAME}_${BUILD_NUMBER}" down -v || true'
+            }
             outputTestResults()
             zulipNotification(topic: 'mdm-end-to-end-testing')
         }
