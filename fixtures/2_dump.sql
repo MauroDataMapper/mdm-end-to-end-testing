@@ -2,6 +2,8 @@
 -- PostgreSQL database dump
 --
 
+\c maurodatamapper;
+
 -- Dumped from database version 12.0
 -- Dumped by pg_dump version 12.0
 
