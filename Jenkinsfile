@@ -26,6 +26,7 @@ pipeline {
         }
         stage('Jenkins Clean') {
             steps {
+                sh 'docker image prune -f'
                 sh 'rm -rf cypress/screenshots'
                 sh 'rm -rf cypress/videos'
                 sh 'rm -rf cypress/reports'
