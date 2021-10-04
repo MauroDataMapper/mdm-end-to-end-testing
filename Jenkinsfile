@@ -62,6 +62,7 @@ pipeline {
         stage('Build and start MDM') {
             steps {
                 sh 'cat ./.env.test'
+                sh 'cp fixtures/*.sql mdm-docker/postgres/fixtures'
                 dir('mdm-docker') {
                     sh 'git checkout develop && git pull'
                     sh 'docker-compose --env-file=../.env.test build --build-arg CACHE_BURST=$(date +%s)'
