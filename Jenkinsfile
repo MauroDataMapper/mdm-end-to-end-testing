@@ -63,6 +63,7 @@ pipeline {
         stage('Build and start MDM') {
             steps {
                 sh 'cat ./.env.test'
+                sh 'cp fixtures/2_dump.sql mdm-docker/postgres/fixtures/2_dump.sql'
                 dir('mdm-docker') {
                     sh 'git checkout develop && git pull'
                     sh 'docker-compose --env-file=../.env.test build --build-arg CACHE_BURST=$(date +%s)'
@@ -71,14 +72,13 @@ pipeline {
                     sh 'docker-compose --env-file=../.env.test -p "${JOB_BASE_NAME}_${BUILD_NUMBER}" up -d postgres'
                     // Wait for postgres to be ready
                     // This will lock until grep gets a count of 2 entries matching the "database system is ready"
-                    sh 'grep -m 2 -c -q "database system is ready" <(docker-compose logs -f postgres)'
+                    sh 'grep -m 2 -c -q "database system is ready" <(docker-compose -p "${JOB_BASE_NAME}_${BUILD_NUMBER}" logs -f postgres)'
 
                     sh 'docker-compose --env-file=../.env.test -p "${JOB_BASE_NAME}_${BUILD_NUMBER}" up -d'
                     // Wait for MDM to startup
                     // This will lock until grep gets a count of 1 entry matching the "Server startup" which indicates tomcat is good to go
-                    sh 'grep -m 1 -c -q "Server startup" <(docker-compose logs -f mauro-data-mapper)'
+                    sh 'grep -m 1 -c -q "Server startup" <(docker-compose -p "${JOB_BASE_NAME}_${BUILD_NUMBER}" logs -f mauro-data-mapper)'
                 }
-
             }
         }
 
