@@ -28,6 +28,7 @@ pipeline {
             steps {
                 sh 'rm -rf cypress/screenshots'
                 sh 'rm -rf cypress/videos'
+                sh 'rm -rf cypress/reports'
             }
         }
 
@@ -36,7 +37,7 @@ pipeline {
                 nvm('') {
                     sh 'npm install'
                 }
-                script{
+                script {
                     def port = uk.ac.ox.ndm.jenkins.Utils.findFreeTcpPort()
                     sh "echo \"MDM_PORT=${port}\" > .env.test"
                     sh "echo \"CYPRESS_BASE_URL=http://localhost:${port}\" >> .env.test"
@@ -45,8 +46,8 @@ pipeline {
             }
         }
 
-        stage('Define develop build info'){
-            when{
+        stage('Define develop build info') {
+            when {
                 not {
                     branch 'main'
                 }
@@ -58,7 +59,7 @@ pipeline {
             }
         }
 
-        stage('Build and start MDM'){
+        stage('Build and start MDM') {
             steps {
                 sh 'cat ./.env.test'
                 dir('mdm-docker') {
@@ -80,8 +81,29 @@ pipeline {
                 }
             }
         }
-        stage('Stop MDM'){
-            steps{
+
+        stage('Report') {
+            steps {
+                nvm('') {
+                    catchError(buildResult: 'UNSTABLE', stageResult: 'UNSTABLE') {
+                        sh 'npm run generate-reports'
+                    }
+                }
+                publishHTML([
+                    allowMissing         : false,
+                    alwaysLinkToLastBuild: true,
+                    keepAll              : true,
+                    reportDir            : 'cypress/reports/mochawesome',
+                    reportFiles          : 'index.html',
+                    reportName           : 'Mocha Report',
+                    reportTitles         : 'Mocha Report'
+                ])
+                junit allowEmptyResults: true, testResults: '**/cypress/reports/*.xml'
+            }
+        }
+
+        stage('Stop MDM') {
+            steps {
                 dir('mdm-docker') {
                     sh 'echo Shutting down mdm-docker'
                     sh 'docker-compose -p "${JOB_BASE_NAME}_${BUILD_NUMBER}" down -v'
@@ -91,25 +113,6 @@ pipeline {
     }
     post {
         always {
-            //            publishHTML([
-            //                allowMissing         : false,
-            //                alwaysLinkToLastBuild: true,
-            //                keepAll              : true,
-            //                reportDir            : 'reports/html',
-            //                reportFiles          : 'cucumber_reporter.html',
-            //                reportName           : 'Cucumber Style Test Report',
-            //                reportTitles         : 'Test'
-            //            ])
-            //            cucumber([
-            //                buildStatus        : 'UNSTABLE',
-            //                fileIncludePattern : '**/*.json',
-            //                jsonReportDirectory: 'reports',
-            //                reportTitle        : 'E2E Report',
-            //                sortingMethod      : 'ALPHABETICAL',
-            //                classifications    : [[key: 'Browser', value: 'Chrome Headless']],
-            //            ])
-
-
             outputTestResults()
             zulipNotification(topic: 'mdm-end-to-end-testing')
         }
