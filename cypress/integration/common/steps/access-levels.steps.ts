@@ -18,6 +18,7 @@ import { Given, Then } from 'cypress-cucumber-preprocessor/steps';
 import { CataloguePage } from '../../catalogue/objects/catalogue-page';
 import { makeCatalogueItemPubliclyReadable } from '../api/access-levels';
 import { ensureUserIsLoggedOut, loginAsUser } from '../helpers/security.helpers';
+import {HomePage} from '../../pages/home-page/home-page';
 
 const catalogue = new CataloguePage();
 
@@ -25,6 +26,7 @@ Given(/^An administrator has marked "([^"]*)" - version: "([^"]*)" - as publicly
   ensureUserIsLoggedOut()
     .log('Sign in as administrator')
     .then(() => loginAsUser('administrator'))
+      .then(() => new HomePage().visit())
     .then(() => catalogue.visit())
     .log('Find catalogue item to display')
     .then(() => catalogue.treeView.tree.ensureExpanded(['Development Folder']))

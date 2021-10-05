@@ -17,14 +17,26 @@ This project uses [Cypress.io](https://www.cypress.io/) as the test framework du
 
 ### Mauro Instance
 
-The tests currently assume that there is a front and back-end running locally at the following URLs:
+The tests require a full version of Mauro running.
+For stability this should be achieved by using the mdm-docker instance, 
+we have included a build and start script for convenience which will not only build and start Mauro but also install the required fixtures.
 
-* Backend: http://localhost:8080
-* Frontend: http://localhost:4200
+For simplicity the script should be run with no options,
+this will build the latest develop branches and start MDM on port 8082 which is what cypress is expecting.
 
-**TODO:** update this section for further instance setup details.
+```shell
+# Build and start MDM
+$ ./build_and_start_environment.sh
 
-Some tests will depend on pre-existing data being available in the Mauro instance - for example particular login details, or existing data models. Currently, the default 'blank' database created during installation/bootstrapping is sufficient, but in due course a 'fixtures' file will be provided to initialise the Mauro instance in the correct state.
+# Get the usage/help
+$ ./build_and_start_environment.sh -h
+```
+
+Some tests will depend on pre-existing data being available in the Mauro instance - for example particular login details, or existing data models. 
+The required fixtures file can be found in the `fixtures` folder, this fixtures file is installed as part of the build and start script.
+
+mdm-docker has been included as a git submodule to allow this single repo to be cloned and run without the need for cloning any other repositories,
+the script includes the command to checkout the submodule but this can be done manually using `git submodule --init`.
 
 ### Browsers
 
@@ -43,7 +55,7 @@ npm install
 To run the test specs in standard headless mode, run this command. Running tests via the CLI is most suitable for CI pipelines and reporting.
 
 ```bash
-npm run test
+npm test
 ```
 
 Alternatively, you can instead view and run tests via the [Cypress test runner](https://docs.cypress.io/guides/core-concepts/test-runner) using this command:

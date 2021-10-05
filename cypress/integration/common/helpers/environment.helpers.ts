@@ -40,7 +40,7 @@ export interface Users {
  * @returns The full API endpoint to use.
  */
 export const apiEndpoint = (url?: string, query?: {}) => {
-  const baseUrl = Cypress.env('apiEndpoint');
+  const baseUrl = Cypress.env('api_server');
   return !url ? baseUrl : `${baseUrl}${url}${generateQueryString(query)}`;
 };
 

@@ -3,9 +3,9 @@
     "**/*.spec.ts",
     "**/*.feature"
   ],
-  "baseUrl": "http://localhost:4200",
+  "baseUrl": "http://localhost:8082",
   "env": {
-    "apiEndpoint": "http://localhost:8080/api",
+    "api_server": "http://localhost:8082/api",
     "users": {
       "administrator": {
         "email": "admin@maurodatamapper.com",
