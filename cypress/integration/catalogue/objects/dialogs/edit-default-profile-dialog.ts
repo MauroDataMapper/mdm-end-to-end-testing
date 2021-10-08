@@ -16,22 +16,33 @@
 
 import { MatDialog } from '../../../common/objects/mat-dialog';
 
-export type UserAccessOption =
-  'shareReadWithEveryone'
-  | 'shareReadWithAuthenticated';
+export type DefaultProfilePropertyName =
+  'description'
+  | 'author'
+  | 'aliases'
+  | 'organisation'
+  | 'classifications'
+  | 'multiplicity';
 
-export class UserGroupAccessDialog extends MatDialog {
+export class EditDefaultProfileDialog extends MatDialog {
   constructor() {
-    super('mdm-security-modal');
+    super('mdm-default-profile-editor-modal');
   }
 
-  getUserAccessOption(option: UserAccessOption) {
+  getEditField(property: DefaultProfilePropertyName) {
     return this.getContainer()
-      .find(`mat-checkbox[name="${option}"]`);
-  }
+      .find(`td[data-cy="${property}"]`)
+      .then(elem => {
+        if (property === 'description') {
+          return cy.wrap(
+              elem.find('mdm-content-editor')
+                .find('mdm-markdown-text-area')
+                .find('textarea'));
+        }
 
-  getUserAccessOptionRawInput(option: UserAccessOption) {
-    return this.getUserAccessOption(option)
-      .find('input[type="checkbox"][name="shareReadWithEveryone"]');
+        // TODO: other input types
+
+        return cy.wrap(elem.find('input[type="text"]'));
+      });
   }
 }

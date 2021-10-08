@@ -14,24 +14,30 @@
  * limitations under the License.
  */
 
-import { MatDialog } from '../../../common/objects/mat-dialog';
+export class MatDialog {
+  constructor(protected containerSelector: string) { }
 
-export type UserAccessOption =
-  'shareReadWithEveryone'
-  | 'shareReadWithAuthenticated';
-
-export class UserGroupAccessDialog extends MatDialog {
-  constructor() {
-    super('mdm-security-modal');
+  getContainer() {
+    return cy.get('mat-dialog-container')
+      .find(this.containerSelector);
   }
 
-  getUserAccessOption(option: UserAccessOption) {
+  ensureDialogIsVisible() {
+    return this.getContainer().should('be.visible');
+  }
+
+  getCloseButton() {
     return this.getContainer()
-      .find(`mat-checkbox[name="${option}"]`);
+      .find('button.close-modal');
   }
 
-  getUserAccessOptionRawInput(option: UserAccessOption) {
-    return this.getUserAccessOption(option)
-      .find('input[type="checkbox"][name="shareReadWithEveryone"]');
+  getCancelButton() {
+    return this.getContainer()
+      .find('button[data-cy="cancel"]');
+  }
+
+  getContinueButton() {
+    return this.getContainer()
+      .find('button[data-cy="continue"]');
   }
 }

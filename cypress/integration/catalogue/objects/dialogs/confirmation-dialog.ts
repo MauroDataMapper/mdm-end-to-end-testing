@@ -16,22 +16,8 @@
 
 import { MatDialog } from '../../../common/objects/mat-dialog';
 
-export type UserAccessOption =
-  'shareReadWithEveryone'
-  | 'shareReadWithAuthenticated';
-
-export class UserGroupAccessDialog extends MatDialog {
+export class ConfirmationDialog extends MatDialog {
   constructor() {
-    super('mdm-security-modal');
-  }
-
-  getUserAccessOption(option: UserAccessOption) {
-    return this.getContainer()
-      .find(`mat-checkbox[name="${option}"]`);
-  }
-
-  getUserAccessOptionRawInput(option: UserAccessOption) {
-    return this.getUserAccessOption(option)
-      .find('input[type="checkbox"][name="shareReadWithEveryone"]');
+    super('mdm-confirmation-modal');
   }
 }

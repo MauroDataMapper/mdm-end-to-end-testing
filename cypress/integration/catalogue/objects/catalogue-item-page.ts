@@ -63,6 +63,17 @@ export type InlineLabelEditButton = 'save' | 'cancel';
 export type UserActionsSubMenuOption =
   'delete-options-menu';
 
+export type DefaultProfileProperty =
+  'aliases'
+  | 'description'
+  | 'multipicity'
+  | 'author'
+  | 'organisation'
+  | 'terminology'
+  | 'url'
+  | 'data-type'
+  | 'classifications';
+
 export interface MauroCatalogueItem {
   id: Uuid;
   domain: CatalogueItemDomainType;
@@ -173,5 +184,47 @@ export class CatalogueItemPage extends MdmTemplatePage {
     return cy.get('div.cdk-overlay-container')
       .find('div.mat-menu-content')
       .find(`button[data-cy="${option}"]`);
+  }
+
+  getProfileSelector() {
+    return this.getTabGroup()
+      .find('mdm-profile-data-view')
+      .find('mat-select[data-cy="profile-selector"]');
+  }
+
+  getDefaultProfile() {
+    return this.getTabGroup()
+      .find('mdm-profile-data-view')
+      .find('mdm-default-profile');
+  }
+
+  getDefaultProfileProperty(property: DefaultProfileProperty) {
+    return this.getDefaultProfile()
+      .find(`tr[data-cy="${property}"]`)
+      .find('td[data-cy="value"]');
+  }
+
+  getDefaultProfileEditButton() {
+    return this.getTabGroup()
+      .find('mdm-profile-data-view')
+      .find('button[data-cy="edit-default"]');
+  }
+
+  startEditDescription() {
+    return this.getDefaultProfileEditButton()
+      .click()
+      .then(() => cy.get('div.cdk-overlay-container'))
+      .find('div.mat-menu-content')
+      .find('button[data-cy="edit-description"]')
+      .click();
+  }
+
+  startEditAllDefaultProfile() {
+    return this.getDefaultProfileEditButton()
+      .click()
+      .then(() => cy.get('div.cdk-overlay-container'))
+      .find('div.mat-menu-content')
+      .find('button[data-cy="edit-all"]')
+      .click();
   }
 }

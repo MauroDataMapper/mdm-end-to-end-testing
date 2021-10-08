@@ -14,24 +14,10 @@
  * limitations under the License.
  */
 
-import { MatDialog } from '../../../common/objects/mat-dialog';
+import { MauroCatalogueItem } from '../../catalogue/objects/catalogue-item-page';
+import { CatalogueItemTypePageObject } from '../../catalogue/objects/catalogue-page';
 
-export type UserAccessOption =
-  'shareReadWithEveryone'
-  | 'shareReadWithAuthenticated';
-
-export class UserGroupAccessDialog extends MatDialog {
-  constructor() {
-    super('mdm-security-modal');
-  }
-
-  getUserAccessOption(option: UserAccessOption) {
-    return this.getContainer()
-      .find(`mat-checkbox[name="${option}"]`);
-  }
-
-  getUserAccessOptionRawInput(option: UserAccessOption) {
-    return this.getUserAccessOption(option)
-      .find('input[type="checkbox"][name="shareReadWithEveryone"]');
-  }
+export interface CatalogueItemTrackedView {
+  page?: CatalogueItemTypePageObject;
+  data?: MauroCatalogueItem;
 }
