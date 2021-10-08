@@ -18,13 +18,18 @@
  * Wrapper object around interactions with a `mat-tree` in the UI.
  */
 export class MatTreeObject {
-  constructor(public selector: string) { }
+  constructor(public containerSelector: string, public name?: string) { }
 
   /**
    * Gets the actual DOM element representing the `mat-tree`.
    */
   getTree() {
-    return cy.get(this.selector).get('mat-tree');
+    return cy.get(this.containerSelector)
+      .get(this.name ? `mat-tree[name="${this.name}"]` : 'mat-tree');
+  }
+
+  ensureIsVisible() {
+    return this.getTree().should('be.visible');
   }
 
   /**
@@ -36,9 +41,9 @@ export class MatTreeObject {
    */
   getTreeNode(name: string, version?: string) {
     let command = this.getTree()
-        .get('mat-tree-node')
-        .find('div.mat-tree-node-content')
-        .filter(`:contains("${name}")`);
+      .get('mat-tree-node')
+      .find('div.mat-tree-node-content')
+      .filter(`:contains("${name}")`);
 
     if (version) {
       command = command.filter(`:contains("${version}")`);

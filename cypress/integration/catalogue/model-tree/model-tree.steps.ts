@@ -20,7 +20,7 @@ import { CataloguePage } from '../objects/catalogue-page';
 const page = new CataloguePage();
 
 Then(/^I see the model tree$/, () => {
-  page.treeView.ensureIsVisible();
+  page.models.tree.ensureIsVisible();
 });
 
 Then(/^The catalogue item detail view is empty$/, () => {

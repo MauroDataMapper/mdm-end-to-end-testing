@@ -14,8 +14,17 @@
  * limitations under the License.
  */
 
-import { MatTreeObject } from '../../common/objects/mat-tree-object';
+import { Given, When } from 'cypress-cucumber-preprocessor/steps';
+import { CataloguePage } from '../../catalogue/objects/catalogue-page';
 
-export class ModelTreeView {
-  tree = new MatTreeObject('mdm-folders-tree', 'Models');
-}
+const catalogue = new CataloguePage();
+
+Given(/^I can see the Classifications list$/, () => {
+  catalogue.getTab('Classifications')
+    .click()
+    .then(() => catalogue.classifications.tree.ensureIsVisible());
+});
+
+When(/^I click on "([^"]*)" in the classifications$/, (label) => {
+  catalogue.classifications.tree.getTreeNode(label).click();
+});

@@ -15,6 +15,7 @@
  */
 
 import { MdmTemplatePage } from '../../common/objects/mdm-template-page';
+import { ClassificationTreeView } from './classification-tree-view';
 import { FolderPage } from './containers/folder-page';
 import { ModelTreeView } from './model-tree-view';
 import { CodeSetPage } from './models/code-set-page';
@@ -37,8 +38,14 @@ export interface CatalogueItemTypePageMap {
   folder: FolderPage;
 }
 
+export type CatalogueTabIdentifier =
+  'Models'
+  | 'Classifications'
+  | 'Favourites';
+
 export class CataloguePage extends MdmTemplatePage {
-  treeView = new ModelTreeView();
+  models = new ModelTreeView();
+  classifications = new ClassificationTreeView();
 
   catalogueItems: CatalogueItemTypePageMap = {
     dataModel: new DataModelPage(),
@@ -75,5 +82,15 @@ export class CataloguePage extends MdmTemplatePage {
         expect(page, `page with tag name '<${viewName}>'`).is.not.undefined;
         return cy.wrap(page);
       });
+  }
+
+  getTabGroup() {
+    return cy.get('mdm-models')
+      .find('mat-tab-group');
+  }
+
+  getTab(name: CatalogueTabIdentifier) {
+    return this.getTabGroup()
+      .contains('div[role="tab"]', name);
   }
 }

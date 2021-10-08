@@ -44,7 +44,8 @@ export type CatalogueItemTabIdentifier =
   | 'Context'
   | 'Rules'
   | 'Annotations'
-  | 'History';
+  | 'History'
+  | 'Classified Elements';
 
 export type UserActionsMenuOption =
   'finalise'

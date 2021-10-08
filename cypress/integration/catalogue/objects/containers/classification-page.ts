@@ -14,8 +14,10 @@
  * limitations under the License.
  */
 
-import { MatTreeObject } from '../../common/objects/mat-tree-object';
+import { ContainerTypePage } from '../container-type-page';
 
-export class ModelTreeView {
-  tree = new MatTreeObject('mdm-folders-tree', 'Models');
+export class ClassificationPage extends ContainerTypePage {
+  constructor() {
+    super('mdm-classification', 'mdm-classification-details');
+  }
 }

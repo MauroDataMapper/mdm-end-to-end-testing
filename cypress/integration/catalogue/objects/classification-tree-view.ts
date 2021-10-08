@@ -16,6 +16,6 @@
 
 import { MatTreeObject } from '../../common/objects/mat-tree-object';
 
-export class ModelTreeView {
-  tree = new MatTreeObject('mdm-folders-tree', 'Models');
+export class ClassificationTreeView {
+  tree = new MatTreeObject('mdm-folders-tree', 'Classifiers');
 }
