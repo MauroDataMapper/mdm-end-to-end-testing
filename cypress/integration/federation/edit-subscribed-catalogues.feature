@@ -1,4 +1,4 @@
-# Copyright 2020 University of Oxford and Health and Social Care Information Centre, also known as NHS Digital
+# Copyright 2021 University of Oxford
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -16,7 +16,7 @@
 
 Feature: Editing subscribed catalogues
 
-    As an administrator of Mauro
+    As a Mauro administrator
     I want to configure connections to subscribed catalogues
 
     Background: I am logged in and on the subscribed catalogues page
@@ -28,12 +28,12 @@ Feature: Editing subscribed catalogues
         When I enter "<label>", "<description>", "<url>", "<api_key>" and "<refresh_period>"
         And I click the add subscription button
         Then The subscribed catalogue is added successfully
-        Then The subscription is deleted
+        Then The subscription is deleted using the delete button
 
         Examples:
             | label                          | description | url                                                      | api_key                              | refresh_period |
             | Continuous Deployment (public) | CD instance | https://modelcatalogue.cs.ox.ac.uk/continuous-deployment |                                      |                |
-            | Continuous Deployment (admin)  | CD instance | https://modelcatalogue.cs.ox.ac.uk/continuous-deployment | a50befd8-6c4c-40e5-aef4-daf0494a4848 |                |
+            | Continuous Deployment (admin)  | CD instance | https://modelcatalogue.cs.ox.ac.uk/continuous-deployment | e2ea4cbb-6aaf-4807-a505-514c8fbed54b |                |
 
     Scenario Outline: Connect to an invalid subscribed catalogue
         Given I click the add button
@@ -46,13 +46,13 @@ Feature: Editing subscribed catalogues
             | Invalid subscription |             | http://invalid.localhost |         |                |
 
     Scenario: Test connection to a subscribed catalogue with an API key
-        Given There is a subscription to a subscribed catalogue
-        When I click on Test subscription
+        Given There is a subscription to a subscribed catalogue with an API key
+        When I click the test subscription button
         Then The test is successful
         Then The subscription is deleted
 
     Scenario: Test connection to a subscribed catalogue without an API key
         Given There is a subscription to a subscribed catalogue without an API key
-        When I click on Test subscription
+        When I click the test subscription button
         Then The test is successful
         Then The subscription is deleted

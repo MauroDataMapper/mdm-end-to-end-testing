@@ -1,4 +1,4 @@
-# Copyright 2020 University of Oxford and Health and Social Care Information Centre, also known as NHS Digital
+# Copyright 2021 University of Oxford
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -22,10 +22,11 @@ Feature: Subscribing to a model
     Background: I am logged in and on the catalogue page
         Given I am logged in as the administrator user
         And I am on the main catalogue browsing page
-        And There is a subscription to a subscribed catalogue with a published model
 
-    Scenario: I subscribe to a model
-        Given I expand the external catalogues
+    Scenario: I subscribe to and unsubscribe from a model
+        # I subscribe to a model
+        Given There is a subscription to a subscribed catalogue with a published model
+        Given I expand External catalogues
         And I expand an external catalogue with a model
         And I click on a model in the external catalogue
         Then The external model is displayed
@@ -34,12 +35,13 @@ Feature: Subscribing to a model
         Then The subscription is successful
         When I click on the subscribed model in the model tree
         Then The model is displayed
-
-    Scenario: I unsubscribe from a model
-        Given I expand the external catalogues
-        And I click on an external catalogue with a model
+        # I unsubscribe from the model
+        Given I expand External catalogues
+        And I expand an external catalogue with a model
         And I click on a model in the external catalogue
-        Then The model is displayed
+        Then The external model is displayed
         When I click the Unsubscribe button
         And I click the Yes, unsubscribe button
         Then The unsubscription is successful
+        Then The subscription is deleted
+        Then The imported model is deleted

@@ -28,6 +28,11 @@ Given(/^I am logged in as the administrator user$/, () => {
     .then(() => new HomePage().visit());
 });
 
+Given(/^I am logged in as the editor user$/, () => {
+  loginAsUser('editor')
+      .then(() => new HomePage().visit());
+});
+
 Then('The login button is shown', () => {
   new HomePage().getLogInButton().should('exist');
 });

@@ -16,34 +16,22 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { MdmForm } from '../common/objects/mdm-form';
+import { CatalogueItemPage } from '../catalogue/objects/catalogue-item-page';
 
-export class AddSubscribedCatalogueForm extends MdmForm {
+export class SubscribedModelPage extends CatalogueItemPage {
     constructor() {
-        super('form[name="subscribedCatForm"]');
+        super('mdm-federated-data-model-main', 'mdm-federated-data-model-detail');
     }
 
-    getLabelField() {
-        return this.getField('name');
+    getFolderSearchInput() {
+        return cy.get('mdm-new-federated-subscription-modal input');
     }
 
-    getDescriptionField() {
-        return this.getField('description');
+    getSubscriptionModalFolder(name: string) {
+        return cy.contains('mdm-new-federated-subscription-modal mat-tree-node div.mat-tree-node-content', name);
     }
 
-    getUrlField() {
-        return this.getField('url');
-    }
-
-    getApiKeyField() {
-        return this.getField('apiKey');
-    }
-
-    getRefreshPeriodField() {
-        return this.getField('refreshPeriod');
-    }
-
-    getAddSubscriptionButton() {
-        return this.getButton('Add subscription');
+    getSubscriptionModalButton(text: string) {
+        return cy.contains('mdm-new-federated-subscription-modal button', text);
     }
 }

@@ -1,4 +1,4 @@
-# Copyright 2020 University of Oxford and Health and Social Care Information Centre, also known as NHS Digital
+# Copyright 2021 University of Oxford
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -36,7 +36,7 @@ Feature: Viewing subscribed catalogues
 
     Scenario: I view a subscribed catalogue without a model as an administrator
         Given I am logged in as the administrator user
-        And There is a subscription to a subscribed catalogue with a published model
+        And There is a subscription to a subscribed catalogue without a published model
         And I am on the main catalogue browsing page
         When I expand External catalogues
         Then I see the external catalogues
@@ -46,8 +46,8 @@ Feature: Viewing subscribed catalogues
         Then I see no model in the external catalogue
         Then The subscription is deleted
 
-    Scenario: I view a subscribed catalogue with a model as a reader
-        Given I am logged in as the reader user
+    Scenario: I view a subscribed catalogue with a model as an editor
+        Given I am logged in as the editor user
         And There is a subscription to a subscribed catalogue with a published model
         And I am on the main catalogue browsing page
         When I expand External catalogues
@@ -58,9 +58,9 @@ Feature: Viewing subscribed catalogues
         Then I see a model in the external catalogue
         Then The subscription is deleted
 
-    Scenario: I view a subscribed catalogue without a model as a reader
-        Given I am logged in as the reader user
-        And There is a subscription to a subscribed catalogue with a published model
+    Scenario: I view a subscribed catalogue without a model as an editor
+        Given I am logged in as the editor user
+        And There is a subscription to a subscribed catalogue without a published model
         And I am on the main catalogue browsing page
         When I expand External catalogues
         Then I see the external catalogues
