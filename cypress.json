@@ -10,11 +10,17 @@
       "administrator": {
         "email": "admin@maurodatamapper.com",
         "password": "password"
+      },
+      "editor": {
+        "email": "editor@test.com",
+        "password": "password"
       }
     }
   },
   "reporter": "cypress-multi-reporters",
   "reporterOptions": {
     "configFile": "reporter-config.json"
-  }
+  },
+  "viewportHeight": 1000,
+  "viewportWidth": 1000
 }

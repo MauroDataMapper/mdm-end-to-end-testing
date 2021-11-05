@@ -46,6 +46,18 @@ export class MdmTemplatePage {
       .last();
   }
 
+  getButton(label: string | RegExp) {
+    return cy.contains('button', label);
+  }
+
+  getMenuButton(label: string | RegExp) {
+    return cy.contains('div.mat-menu-content button', label);
+  };
+
+  getToastMessage(message: string | RegExp) {
+    return cy.contains('div.toast-message', message);
+  }
+
   logoutViaUserProfileMenu() {
     this.getUserProfileName().click();
     this.getLogoutButtonFromUserProfileMenu().click();
